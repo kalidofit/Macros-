@@ -45,29 +45,29 @@
             <div class="md:col-span-2">
                 <label class="block text-sm font-semibold mb-2">የእንቅስቃሴ ደረጃ (Activity Level)</label>
                 <select id="activity" class="w-full bg-slate-700/80 border border-slate-500 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400">
-                    <option value="1.2">Sedentary (Office job, little exercise)</option>
-                    <option value="1.375">Lightly Active (Light exercise 1-3 days/wk)</option>
-                    <option value="1.55">Moderately Active (Moderate exercise 3-5 days/wk)</option>
-                    <option value="1.725">Very Active (Hard exercise 6-7 days/wk)</option>
+                    <option value="1.2">ዝም ብሎ መዋል (Little to no exercise)</option>
+                    <option value="1.375">ቀላል እንቅስቃሴ (Light exercise)</option>
+                    <option value="1.55">መካከለኛ እንቅስቃሴ (Moderate exercise)</option>
+                    <option value="1.725">ከፍተኛ እንቅስቃሴ (Heavy exercise)</option>
                 </select>
             </div>
 
             <div class="md:col-span-2">
-                <label class="block text-sm font-semibold mb-2">የአካል ብቃት ግብዎ (Your Fitness Goal)</label>
+                <label class="block text-sm font-semibold mb-2">Your Fitness Goal</label>
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">Lose Fat<br><span class="text-xs text-slate-400">ቀንስ</span></button>
-                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-emerald-500 border border-emerald-400 font-medium text-slate-900 focus:outline-none transition text-sm">Maintain<br><span class="text-xs text-emerald-900">ጠብቅ</span></button>
-                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">Gain Muscle<br><span class="text-xs text-slate-400">ጨምር</span></button>
+                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">Lose Fat</button>
+                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-emerald-500 border border-emerald-400 font-medium text-slate-900 focus:outline-none transition text-sm">Maintain</button>
+                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">Gain Muscle</button>
                 </div>
             </div>
         </div>
 
         <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-emerald-400 to-cyan-500 hover:from-emerald-500 hover:to-cyan-600 text-slate-950 font-bold py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
-            የእኔን ውጤት አስላ (Calculate My Targets)
+            Calculate My Targets
         </button>
 
         <div id="results" class="hidden mt-8 pt-8 border-t border-slate-600">
-            <h2 class="text-xl font-bold mb-4 text-center text-emerald-400">የእርስዎ ውጤቶች (Your Results)</h2>
+            <h2 class="text-xl font-bold mb-4 text-center text-emerald-400">Your Results</h2>
             <div class="grid grid-cols-2 gap-4 text-center mb-6">
                 <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-600">
                     <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Your TDEE</span>
@@ -104,19 +104,13 @@
             currentGoal = goal;
             
             // Reset all buttons
-            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.querySelector('#goal-lose span').className = "text-xs text-slate-400";
-            
-            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.querySelector('#goal-maintain span').className = "text-xs text-slate-400";
-            
-            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.querySelector('#goal-gain span').className = "text-xs text-slate-400";
+            document.querySelectorAll('.goal-btn').forEach(btn => {
+                btn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
+            });
 
             // Highlight active button
             const activeBtn = document.getElementById(`goal-${goal}`);
             activeBtn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-emerald-500 border border-emerald-400 font-medium text-slate-900 focus:outline-none transition text-sm";
-            document.querySelector(`#goal-${goal} span`).className = "text-xs text-emerald-900";
         }
 
         function calculate() {
