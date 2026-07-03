@@ -4,82 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalidofit's Macro Calculator</title>
+    <!-- Tailwind CSS for modern, premium styling -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
+<!-- BACKGROUND IMAGE: Change the Unsplash link below to your own picture's link! -->
 <body class="text-slate-100 font-sans min-h-screen flex items-center justify-center p-4 relative bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center bg-fixed">
     
-    <div class="absolute inset-0 bg-slate-950/75"></div>
+    <!-- Dark overlay to make the text readable over the background -->
+    <div class="absolute inset-0 bg-slate-950/80"></div>
 
-    <div class="relative z-10 max-w-2xl w-full bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-600 p-6 md:p-8">
+    <div class="relative z-10 max-w-2xl w-full bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 p-6 md:p-8">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            <!-- CUSTOM COLOR NOTE: To use your exact brand color, replace 'from-orange-400 to-red-500' with your custom hex code like 'from-[#ff5a1f] to-[#cc1100]' -->
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
                 KALIDOFIT'S MACRO CALCULATOR
             </h1>
-            <p class="text-slate-300 mt-2 font-medium">እንኳን በደህና መጡ! Discover your exact daily caloric and macro targets.</p>
+            <p class="text-slate-300 mt-2 font-medium">Discover your exact daily caloric and macro targets. (እንኳን በደህና መጡ!)</p>
         </div>
 
+        <!-- Form Inputs -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-sm font-semibold mb-2">ፆታ (Gender)</label>
-                <select id="gender" class="w-full bg-slate-700/80 border border-slate-500 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400">
-                    <option value="male">ወንድ (Male)</option>
-                    <option value="female">ሴት (Female)</option>
+                <label class="block text-sm font-semibold mb-2">Gender (ፆታ)</label>
+                <select id="gender" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="male">Male (ወንድ)</option>
+                    <option value="female">Female (ሴት)</option>
                 </select>
             </div>
 
             <div>
-                <label class="block text-sm font-semibold mb-2">እድሜ (Age in years)</label>
-                <input type="number" id="age" value="25" class="w-full bg-slate-700/80 border border-slate-500 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400">
+                <label class="block text-sm font-semibold mb-2">Age in years (እድሜ)</label>
+                <input type="number" id="age" value="25" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
             </div>
 
             <div>
-                <label class="block text-sm font-semibold mb-2">ክብደት (Weight in kg)</label>
-                <input type="number" id="weight" value="70" class="w-full bg-slate-700/80 border border-slate-500 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400">
+                <label class="block text-sm font-semibold mb-2">Weight in kg (ክብደት)</label>
+                <input type="number" id="weight" value="70" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
             </div>
 
             <div>
-                <label class="block text-sm font-semibold mb-2">ቁመት (Height in cm)</label>
-                <input type="number" id="height" value="175" class="w-full bg-slate-700/80 border border-slate-500 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400">
+                <label class="block text-sm font-semibold mb-2">Height in cm (ቁመት)</label>
+                <input type="number" id="height" value="175" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
             </div>
 
             <div class="md:col-span-2">
-                <label class="block text-sm font-semibold mb-2">የእንቅስቃሴ ደረጃ (Activity Level)</label>
-                <select id="activity" class="w-full bg-slate-700/80 border border-slate-500 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400">
-                    <option value="1.2">ዝም ብሎ መዋል (Little to no exercise)</option>
-                    <option value="1.375">ቀላል እንቅስቃሴ (Light exercise)</option>
-                    <option value="1.55">መካከለኛ እንቅስቃሴ (Moderate exercise)</option>
-                    <option value="1.725">ከፍተኛ እንቅስቃሴ (Heavy exercise)</option>
+                <label class="block text-sm font-semibold mb-2">Activity Level (የእንቅስቃሴ ደረጃ)</label>
+                <select id="activity" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="1.2">Little to no exercise (ዝም ብሎ መዋል)</option>
+                    <option value="1.375">Light exercise (ቀላል እንቅስቃሴ)</option>
+                    <option value="1.55">Moderate exercise (መካከለኛ እንቅስቃሴ)</option>
+                    <option value="1.725">Heavy exercise (ከፍተኛ እንቅስቃሴ)</option>
                 </select>
             </div>
 
             <div class="md:col-span-2">
-                <label class="block text-sm font-semibold mb-2">Your Fitness Goal</label>
+                <label class="block text-sm font-semibold mb-2">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">Lose Fat</button>
-                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-emerald-500 border border-emerald-400 font-medium text-slate-900 focus:outline-none transition text-sm">Maintain</button>
-                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">Gain Muscle</button>
+                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">
+                        Lose Fat<br><span class="text-xs text-slate-400 block mt-1">ቀንስ</span>
+                    </button>
+                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 focus:outline-none transition text-sm">
+                        Maintain<br><span class="text-xs text-orange-900 font-bold block mt-1">ጠብቅ</span>
+                    </button>
+                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">
+                        Gain Muscle<br><span class="text-xs text-slate-400 block mt-1">ጨምር</span>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-emerald-400 to-cyan-500 hover:from-emerald-500 hover:to-cyan-600 text-slate-950 font-bold py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-slate-950 font-extrabold text-lg py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
             Calculate My Targets
         </button>
 
+        <!-- Results Section (English Only) -->
         <div id="results" class="hidden mt-8 pt-8 border-t border-slate-600">
-            <h2 class="text-xl font-bold mb-4 text-center text-emerald-400">Your Results</h2>
+            <h2 class="text-xl font-bold mb-4 text-center text-orange-400">Your Results</h2>
             <div class="grid grid-cols-2 gap-4 text-center mb-6">
-                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-600">
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
                     <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Your TDEE</span>
                     <div id="tdee-val" class="text-2xl font-extrabold text-white mt-1">0</div>
                 </div>
-                <div class="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/50 ring-1 ring-emerald-500/30">
-                    <span class="text-xs text-emerald-400 uppercase font-bold tracking-wider">Target Calories</span>
-                    <div id="target-calories" class="text-2xl font-extrabold text-emerald-400 mt-1">0</div>
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/50 ring-1 ring-orange-500/30">
+                    <span class="text-xs text-orange-400 uppercase font-bold tracking-wider">Target Calories</span>
+                    <div id="target-calories" class="text-2xl font-extrabold text-orange-400 mt-1">0</div>
                 </div>
             </div>
 
-            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3">Daily Macros Breakdown</h3>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3 text-center">Daily Macros Breakdown</h3>
             <div class="grid grid-cols-3 gap-3 text-center">
                 <div class="bg-slate-750 p-3 rounded-lg border border-slate-600 bg-slate-800/80">
                     <div class="text-xs font-semibold text-amber-400">Protein</div>
@@ -103,14 +115,20 @@
         function setGoal(goal) {
             currentGoal = goal;
             
-            // Reset all buttons
-            document.querySelectorAll('.goal-btn').forEach(btn => {
-                btn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            });
+            // Reset all buttons back to dark gray
+            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
+            document.querySelector('#goal-lose span').className = "text-xs text-slate-400 block mt-1";
+            
+            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
+            document.querySelector('#goal-maintain span').className = "text-xs text-slate-400 block mt-1";
+            
+            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
+            document.querySelector('#goal-gain span').className = "text-xs text-slate-400 block mt-1";
 
-            // Highlight active button
+            // Highlight the active button with the custom orange color
             const activeBtn = document.getElementById(`goal-${goal}`);
-            activeBtn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-emerald-500 border border-emerald-400 font-medium text-slate-900 focus:outline-none transition text-sm";
+            activeBtn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 focus:outline-none transition text-sm";
+            document.querySelector(`#goal-${goal} span`).className = "text-xs text-orange-900 font-bold block mt-1";
         }
 
         function calculate() {
