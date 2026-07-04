@@ -59,7 +59,6 @@
                 </select>
             </div>
 
-            <!-- NEW: Diet Preference -->
             <div class="md:col-span-2">
                 <label class="block text-sm font-semibold mb-2">Diet Preference (የአመጋገብ ምርጫ)</label>
                 <select id="diet" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
@@ -74,13 +73,13 @@
                 <label class="block text-sm font-semibold mb-2">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">
-                        Lose Fat<br><span class="text-xs text-slate-400 block mt-1">ቀንስ</span>
+                        Lose Fat
                     </button>
                     <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 focus:outline-none transition text-sm">
-                        Maintain<br><span class="text-xs text-orange-900 font-bold block mt-1">ጠብቅ</span>
+                        Maintain
                     </button>
                     <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">
-                        Gain Muscle<br><span class="text-xs text-slate-400 block mt-1">ጨምር</span>
+                        Gain Muscle
                     </button>
                 </div>
             </div>
@@ -135,7 +134,7 @@
                 </div>
             </div>
 
-            <!-- NEW: Water Target -->
+            <!-- Water Target -->
             <div class="mt-6 bg-blue-900/40 p-4 rounded-xl border border-blue-500/30 text-center shadow-lg">
                 <span class="text-xs text-blue-400 uppercase font-bold tracking-wider">Daily Water Target (የውሃ ፍላጎት)</span>
                 <div id="water-val" class="text-2xl font-extrabold text-blue-300 mt-1">0 L</div>
@@ -144,16 +143,15 @@
         </div>
     </div>
 
-    <!-- NEW: Brand Footer -->
+    <!-- Brand Footer -->
     <div class="relative z-10 mt-8 mb-8 text-center">
         <p class="text-slate-400 text-sm font-medium">Powered by <span class="text-orange-400 font-bold tracking-wider">KALIDOFIT</span></p>
         <div class="flex justify-center gap-6 mt-4">
-            <!-- Replace the # with your actual links below -->
-            <a href="#" target="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.instagram.com/kalid._.akmel/%3F__d%3D1WeChat%25E5%25AE%259E%25E5%2590%258D%25E5%258F%25B7%25E5%2594%25AE%25E4%25B9%25B0%25E5%25B9%25B3%25E5%258F%25B0%25E2%259C%2594%25EF%25B8%258F%252Brigebi.com%252B%25E2%25AD%2590%252B%252Bqq%25E7%259A%2587%25E5%2586%25A0%25E5%258F%25B7%25E6%2580%258E%25E4%25B9%2588%25E5%2585%25BB%25E7%25B2%2589&ved=2ahUKEwjepajqtbeVAxUBSaQEHSJFKx4QFnoECDwQAQ&usg=AOvVaw3jQMlmQOUPYp5t20snhUYQ" class="text-slate-400 hover:text-white transition font-semibold text-sm">Instagram</a>
+            <a href="https://www.instagram.com/kalid._.akmel?igsh=MW5hbXlnazNocWdhOQ==" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Instagram</a>
             <span class="text-slate-600">•</span>
-            <a href="#" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">TikTok</a>
+            <a href="https://tiktok.com/@kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">TikTok</a>
             <span class="text-slate-600">•</span>
-            <a href="#" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">YouTube</a>
+            <a href="https://linktr.ee/kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Linktree</a>
         </div>
     </div>
 
@@ -163,18 +161,14 @@
         function setGoal(goal) {
             currentGoal = goal;
             
+            // Reset all buttons
             document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.querySelector('#goal-lose span').className = "text-xs text-slate-400 block mt-1";
-            
             document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.querySelector('#goal-maintain span').className = "text-xs text-slate-400 block mt-1";
-            
             document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.querySelector('#goal-gain span').className = "text-xs text-slate-400 block mt-1";
 
+            // Highlight active button
             const activeBtn = document.getElementById(`goal-${goal}`);
             activeBtn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 focus:outline-none transition text-sm";
-            document.querySelector(`#goal-${goal} span`).className = "text-xs text-orange-900 font-bold block mt-1";
         }
 
         function calculate() {
@@ -201,7 +195,7 @@
             if (currentGoal === 'gain') targetCalories = Math.round(tdee + 300);
 
             // Diet Preferences Logic
-            let pPct = 0.30, cPct = 0.40, fPct = 0.30; // Default Balanced
+            let pPct = 0.30, cPct = 0.40, fPct = 0.30; 
             
             if (diet === 'high-protein') {
                 pPct = 0.40; cPct = 0.30; fPct = 0.30;
@@ -215,7 +209,7 @@
             const carbsGrams = Math.round((targetCalories * cPct) / 4);
             const fatGrams = Math.round((targetCalories * fPct) / 9);
 
-            // Water Target Logic (Base: 33ml per kg + activity adjustment)
+            // Water Target Logic 
             let extraWater = 0;
             if (activity === 1.375) extraWater = 0.4;
             if (activity === 1.55) extraWater = 0.8;
@@ -230,7 +224,7 @@
             document.getElementById('fats-val').innerText = fatGrams + "g";
             document.getElementById('water-val').innerText = waterLiters + " Liters";
 
-            // Update Visual Progress Bars (Add tiny delay for smooth animation)
+            // Update Visual Progress Bars
             setTimeout(() => {
                 document.getElementById('protein-bar').style.width = (pPct * 100) + "%";
                 document.getElementById('carbs-bar').style.width = (cPct * 100) + "%";
@@ -243,4 +237,3 @@
     </script>
 </body>
 </html>
-
