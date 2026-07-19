@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypertrophy & Overload Tracker</title>
+    <!-- Tailwind CSS for a premium dark mode design -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Smooth transitions for a native app feel */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+
+    <!-- Header Block -->
+    <header class="bg-slate-900 border-b border-slate-800 py-6 px-4 sticky top-0 z-50 shadow-md">
+        <div class="max-w-xl mx-auto flex justify-between items-between">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-red-500 uppercase">Hypertrophy Tracker</h1>
+                <p class="text-xs text-slate-400">Advanced 6-Day PPL Overload Engine</p>
+            </div>
+            <div class="text-right">
+                <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-full border border-emerald-500/20 font-medium">● Offline Mode</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-xl mx-auto p-4 space-y-6 pb-24">
+        
+        <!-- Active Workout Session Card -->
+        <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-semibold text-slate-200 flex items-center gap-2 text-lg">
+                    <span>🏋️‍♂️</span> Active Session: Push 1
+                </h2>
+                <span class="text-xs text-slate-400 font-mono" id="current-date">Today</span>
+            </div>
+            
+            <!-- Quick Exercise Select -->
+            <div class="mb-5">
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Exercise</label>
+                <select id="exercise-select" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm focus:outline-none focus:border-red-500 text-slate-200">
+                    <option value="Incline DB Press">Incline Dumbbell Press (Chest Bias)</option>
+                    <option value="Flat Barbell Press">Flat Machine / Barbell Press (Chest)</option>
+                    <option value="Cable Crossover">Cable Crossovers / Pec Deck</option>
+                    <option value="Barbell Curl">Barbell or EZ-Bar Curls (Biceps)</option>
+                    <option value="Hack Squat">Hack Squats / Barbell Squats (Quads)</option>
+                </select>
+            </div>
+
+            <!-- Overload Predictor Banner -->
+            <div class="bg-slate-950 border border-slate-800/80 rounded-lg p-4 mb-5 space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-400 font-medium">🎯 Last Week's Baseline:</span>
+                    <span id="last-week-perf" class="font-mono text-slate-300 font-bold">200 lbs × 8 reps</span>
+                </div>
+                <div class="border-t border-slate-900 my-2"></div>
+                <div class="text-xs space-y-1">
+                    <p class="text-slate-400 font-semibold uppercase tracking-wide text-[10px] text-red-400">Target to Achieve Overload Today:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-300" id="overload-targets">
+                        <li>Option 1: 200 lbs for 9 reps (+1 rep)</li>
+                        <li>Option 2: 205 lbs for 8 reps (+2.5% load)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Live Set Input Form -->
+            <form id="set-form" class="space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Weight (lbs/kg)</label>
+                        <input type="number" id="input-weight" required placeholder="200" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-center text-sm font-mono focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Reps Hit</label>
+                        <input type="number" id="input-reps" required placeholder="8" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-center text-sm font-mono focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Target Intensity</label>
+                        <select id="input-rir" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-center text-sm focus:outline-none focus:border-red-500 text-slate-300">
+                            <option value="0">0 RIR (Failure)</option>
+                            <option value="1" selected>1 RIR (1 from failure)</option>
+                            <option value="2">2 RIR (2 from failure)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm py-3 px-4 rounded-lg shadow-sm transition-all active:scale-[0.99]">
+                    ＋ Log Set
+                </button>
+            </form>
+        </section>
+
+        <!-- Current Workout Performance Log List -->
+        <section class="space-y-3">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Completed Sets (This Session)</h3>
+            <div id="log-container" class="space-y-2">
+                <!-- Log items inject here via JavaScript -->
+                <p class="text-xs text-slate-500 text-center py-6 border border-dashed border-slate-800 rounded-xl" id="no-data-msg">No sets logged in this session yet.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- App Engine Logic Core JavaScript -->
+    <script>
+        // Set Date display
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        // Simulated Local Storage Database Schema Baseline
+        // In production, this matches real inputs from previous weeks
+        const baselines = {
+            "Incline DB Press": { weight: 80, reps: 8 },
+            "Flat Barbell Press": { weight: 225, reps: 6 },
+            "Cable Crossover": { weight: 40, reps: 12 },
+            "Barbell Curl": { weight: 95, reps: 10 },
+            "Hack Squat": { weight: 315, reps: 8 }
+        };
+
+        const exerciseSelect = document.getElementById('exercise-select');
+        const setForm = document.getElementById('set-form');
+        const logContainer = document.getElementById('log-container');
+        const noDataMsg = document.getElementById('no-data-msg');
+
+        // State managing active inputs arrays
+        let currentSessionLog = JSON.parse(localStorage.getItem('hypertrophy_session_log')) || [];
+
+        // Dynamic Overload Predictor Calculation Logic
+        function updateOverloadPredictor() {
+            const selectedEx = exerciseSelect.value;
+            const baseline = baselines[selectedEx] || { weight: 100, reps: 10 };
+            
+            document.getElementById('last-week-perf').innerText = `${baseline.weight} lbs/kg × ${baseline.reps} reps`;
+            
+            // Overload option calculations
+            const opt1Reps = baseline.reps + 1;
+            const opt2Weight = Math.ceil((baseline.weight * 1.025) / 2.5) * 2.5;
+
+            document.getElementById('overload-targets').innerHTML = `
+                <li class="flex items-center gap-2">
+                    <span class="text-red-500">➜</span> 
+                    <span>Keep load, hit reps: <strong class="text-white">${baseline.weight} lbs/kg for ${opt1Reps} reps</strong></span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-red-500">➜</span> 
+                    <span>Increase load, keep reps: <strong class="text-white">${opt2Weight} lbs/kg for ${baseline.reps} reps</strong></span>
+                </li>
+            `;
+        }
+
+        // Handle Log Submissions
+        setForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const weight = parseFloat(document.getElementById('input-weight').value);
+            const reps = parseInt(document.getElementById('input-reps').value);
+            const rir = document.getElementById('input-rir').value;
+            const exercise = exerciseSelect.value;
+            
+            const setNumber = currentSessionLog.filter(s => s.exercise === exercise).length + 1;
+            
+            const setRecord = {
+                id: Date.now(),
+                exercise,
+                setNumber,
+                weight,
+                reps,
+                rir
+            };
+
+            currentSessionLog.unshift(setRecord);
+            localStorage.setItem('hypertrophy_session_log', JSON.stringify(currentSessionLog));
+            
+            renderLogs();
+            setForm.reset();
+            document.getElementById('input-weight').value = weight; // retain previous weight context for comfort
+        });
+
+        // UI Builder Engine for Log Cards
+        function renderLogs() {
+            if (currentSessionLog.length === 0) {
+                noDataMsg.classList.remove('hidden');
+                return;
+            }
+            noDataMsg.classList.add('hidden');
+            
+            logContainer.innerHTML = '';
+            currentSessionLog.forEach(set => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 border border-slate-800 p-3 rounded-lg flex justify-between items-center fade-in text-sm";
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs bg-slate-800 text-slate-300 font-mono px-1.5 py-0.5 rounded mr-2">Set ${set.setNumber}</span>
+                        <strong class="text-slate-200">${set.exercise}</strong>
+                    </div>
+                    <div class="text-right flex items-center gap-4">
+                        <span class="font-mono text-slate-300 font-bold">${set.weight} × ${set.reps} <span class="text-xs text-slate-500 font-normal">(${set.rir} RIR)</span></span>
+                        <button onclick="deleteSet(${set.id})" class="text-slate-500 hover:text-red-400 text-xs transition-colors cursor-pointer">✕</button>
+                    </div>
+                `;
+                logContainer.appendChild(card);
+            });
+        }
+
+        // Delete Helper Function
+        window.deleteSet = function(id) {
+            currentSessionLog = currentSessionLog.filter(s => s.id !== id);
+            localStorage.setItem('hypertrophy_session_log', JSON.stringify(currentSessionLog));
+            renderLogs();
+        };
+
+        // Event hooks initializing behaviors
+        exerciseSelect.addEventListener('change', updateOverloadPredictor);
+        updateOverloadPredictor();
+        renderLogs();
+    </script>
+</body>
+</html>
