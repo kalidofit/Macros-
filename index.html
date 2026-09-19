@@ -4,25 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalidofit's Macro Calculator</title>
-    <!-- Tailwind CSS for modern, premium styling -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        /* Smooth animation for the macro bars */
         .macro-bar { transition: width 1s ease-in-out; }
-        
-        /* Body Fat Image Selection Styling */
-        .bf-card input:checked + img {
-            border-color: #f97316; /* Orange border */
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
-            transform: scale(1.05);
-        }
     </style>
 </head>
-<body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center bg-fixed" onload="toggleBodyFatImages()">
+<body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative bg-slate-950" onload="toggleBodyFatImages()">
     
-    <!-- Dark overlay -->
-    <div class="absolute inset-0 bg-slate-950/80"></div>
-
     <div class="relative z-10 max-w-2xl w-full bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 p-6 md:p-8 mt-8">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
@@ -31,11 +19,9 @@
             <p class="text-slate-300 mt-2 font-medium">Discover your exact daily caloric and macro targets. (እንኳን በደህና መጡ!)</p>
         </div>
 
-        <!-- Form Inputs -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-semibold mb-2">Gender (ፆታ)</label>
-                <!-- Automatically swaps images when gender changes -->
                 <select id="gender" onchange="toggleBodyFatImages()" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
                     <option value="male">Male (ወንድ)</option>
                     <option value="female">Female (ሴት)</option>
@@ -60,53 +46,25 @@
             <div class="md:col-span-2">
                 <label class="block text-sm font-semibold mb-2">Activity Level (የእንቅስቃሴ ደረጃ)</label>
                 <select id="activity" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-                    <option value="1.2">Little to no exercise (ዝም ብሎ መዋል)</option>
-                    <option value="1.375">Light exercise (ቀላል እንቅስቃሴ)</option>
-                    <option value="1.55">Moderate exercise (መካከለኛ እንቅስቃሴ)</option>
-                    <option value="1.725">Heavy exercise (ከፍተኛ እንቅስቃሴ)</option>
+                    <option value="1.2">Little to no exercise</option>
+                    <option value="1.375">Light exercise</option>
+                    <option value="1.55">Moderate exercise</option>
+                    <option value="1.725">Heavy exercise</option>
                 </select>
             </div>
 
-            <!-- Dynamic Body Fat Selector -->
+            <!-- Body Fat Chart Image Section -->
             <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <label class="block text-sm font-semibold mb-3 text-orange-400">Body Fat % (Optional - For Elite Accuracy)</label>
+                <label class="block text-sm font-semibold mb-3 text-orange-400">Body Fat Reference Chart</label>
                 
-                <!-- Male Image Options -->
-                <div id="bf-male-section" class="flex gap-2 justify-between">
-                    <label class="bf-card cursor-pointer text-center w-1/3">
-                        <input type="radio" name="bodyFat" value="11" class="hidden">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop" alt="Male Lean" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
-                        <span class="block text-xs font-bold mt-2 text-slate-300">10-12% (Lean)</span>
-                    </label>
-                    <label class="bf-card cursor-pointer text-center w-1/3">
-                        <input type="radio" name="bodyFat" value="16" class="hidden">
-                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=200&auto=format&fit=crop" alt="Male Average" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
-                        <span class="block text-xs font-bold mt-2 text-slate-300">15-17% (Average)</span>
-                    </label>
-                    <label class="bf-card cursor-pointer text-center w-1/3">
-                        <input type="radio" name="bodyFat" value="25" class="hidden">
-                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop" alt="Male Higher" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200 opacity-80">
-                        <span class="block text-xs font-bold mt-2 text-slate-300">25%+ (Higher)</span>
-                    </label>
+                <!-- Male Chart Image -->
+                <div id="bf-male-section" class="text-center">
+                    <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
                 </div>
 
-                <!-- Female Image Options -->
-                <div id="bf-female-section" class="flex gap-2 justify-between hidden">
-                    <label class="bf-card cursor-pointer text-center w-1/3">
-                        <input type="radio" name="bodyFat" value="19" class="hidden">
-                        <img src="https://images.unsplash.com/photo-1611672582845-814041b6cce7?q=80&w=200&auto=format&fit=crop" alt="Female Lean" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
-                        <span class="block text-xs font-bold mt-2 text-slate-300">18-20% (Lean)</span>
-                    </label>
-                    <label class="bf-card cursor-pointer text-center w-1/3">
-                        <input type="radio" name="bodyFat" value="25" class="hidden">
-                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=200&auto=format&fit=crop" alt="Female Average" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
-                        <span class="block text-xs font-bold mt-2 text-slate-300">24-26% (Average)</span>
-                    </label>
-                    <label class="bf-card cursor-pointer text-center w-1/3">
-                        <input type="radio" name="bodyFat" value="32" class="hidden">
-                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=200&auto=format&fit=crop" alt="Female Higher" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200 opacity-80">
-                        <span class="block text-xs font-bold mt-2 text-slate-300">30%+ (Higher)</span>
-                    </label>
+                <!-- Female Chart Image -->
+                <div id="bf-female-section" class="text-center hidden">
+                    <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
                 </div>
             </div>
 
@@ -114,33 +72,26 @@
                 <label class="block text-sm font-semibold mb-2">Diet Preference (የአመጋገብ ምርጫ)</label>
                 <select id="diet" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
                     <option value="balanced">Balanced (ሚዛናዊ)</option>
-                    <option value="high-protein">High Protein (ከፍተኛ ፕሮቲን)</option>
-                    <option value="low-carb">Low Carb (አነስተኛ ካርቦሃይድሬት)</option>
-                    <option value="keto">Keto (ኬቶ)</option>
+                    <option value="high-protein">High Protein</option>
+                    <option value="low-carb">Low Carb</option>
+                    <option value="keto">Keto</option>
                 </select>
             </div>
 
             <div class="md:col-span-2">
                 <label class="block text-sm font-semibold mb-2">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">
-                        Lose Fat
-                    </button>
-                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 focus:outline-none transition text-sm">
-                        Maintain
-                    </button>
-                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm">
-                        Gain Muscle
-                    </button>
+                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Lose Fat</button>
+                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm">Maintain</button>
+                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Gain Muscle</button>
                 </div>
             </div>
         </div>
 
-        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-slate-950 font-extrabold text-lg py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 text-slate-950 font-extrabold text-lg py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
             Calculate My Targets
         </button>
 
-        <!-- Results Section -->
         <div id="results" class="hidden mt-8 pt-8 border-t border-slate-600">
             <h2 class="text-xl font-bold mb-4 text-center text-orange-400">Your Results</h2>
             <div class="grid grid-cols-2 gap-4 text-center mb-6">
@@ -148,7 +99,7 @@
                     <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Your TDEE</span>
                     <div id="tdee-val" class="text-2xl font-extrabold text-white mt-1">0</div>
                 </div>
-                <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/50 ring-1 ring-orange-500/30 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
                     <span class="text-xs text-orange-400 uppercase font-bold tracking-wider">Target Calories</span>
                     <div id="target-calories" class="text-2xl font-extrabold text-orange-400 mt-1">0</div>
                 </div>
@@ -178,12 +129,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mt-6 bg-blue-900/40 p-4 rounded-xl border border-blue-500/30 text-center shadow-lg">
-                <span class="text-xs text-blue-400 uppercase font-bold tracking-wider">Daily Water Target (የውሃ ፍላጎት)</span>
-                <div id="water-val" class="text-2xl font-extrabold text-blue-300 mt-1">0 L</div>
-                <p class="text-xs text-blue-200/50 mt-1">Based on your weight & activity level</p>
-            </div>
         </div>
     </div>
 
@@ -202,15 +147,10 @@
     <script>
         let currentGoal = 'maintain';
 
-        // Toggles Male/Female Images Dynamically
         function toggleBodyFatImages() {
             const gender = document.getElementById('gender').value;
             const maleSection = document.getElementById('bf-male-section');
             const femaleSection = document.getElementById('bf-female-section');
-            
-            // Clear prior selection when gender changes
-            const radios = document.querySelectorAll('input[name="bodyFat"]');
-            radios.forEach(radio => radio.checked = false);
 
             if (gender === 'male') {
                 maleSection.classList.remove('hidden');
@@ -223,12 +163,10 @@
 
         function setGoal(goal) {
             currentGoal = goal;
-            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 focus:outline-none transition text-sm";
-
-            const activeBtn = document.getElementById(`goal-${goal}`);
-            activeBtn.className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 focus:outline-none transition text-sm";
+            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById(`goal-${goal}`).className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm";
         }
 
         function calculate() {
@@ -238,20 +176,12 @@
             const heightCm = parseFloat(document.getElementById('height').value);
             const activity = parseFloat(document.getElementById('activity').value);
             const diet = document.getElementById('diet').value;
-            
-            const bodyFatElement = document.querySelector('input[name="bodyFat"]:checked');
-            const bodyFatPct = bodyFatElement ? parseFloat(bodyFatElement.value) : null;
 
             let bmr = 0;
-            if (bodyFatPct) {
-                const leanBodyMass = weightKg * (1 - (bodyFatPct / 100));
-                bmr = 370 + (21.6 * leanBodyMass);
+            if (gender === 'male') {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
             } else {
-                if (gender === 'male') {
-                    bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
-                } else {
-                    bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
-                }
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
             }
 
             const tdee = Math.round(bmr * activity);
@@ -273,18 +203,455 @@
             const carbsGrams = Math.round((targetCalories * cPct) / 4);
             const fatGrams = Math.round((targetCalories * fPct) / 9);
 
-            let extraWater = 0;
-            if (activity === 1.375) extraWater = 0.4;
-            if (activity === 1.55) extraWater = 0.8;
-            if (activity === 1.725) extraWater = 1.2;
-            const waterLiters = ((weightKg * 0.033) + extraWater).toFixed(1);
+            document.getElementById('tdee-val').innerText = tdee + " kcal";
+            document.getElementById('target-calories').innerText = targetCalories + " kcal";
+            document.getElementById('protein-val').innerText = proteinGrams + "g";
+            document.getElementById('carbs-val').innerText = carbsGrams + "g";
+            document.getElementById('fats-val').innerText = fatGrams + "g";
+
+            setTimeout(() => {
+                document.getElementById('protein-bar').style.width = (pPct * 100) + "%";
+                document.getElementById('carbs-bar').style.width = (cPct * 100) + "%";
+                document.getElementById('fats-bar').style.width = (fPct * 100) + "%";
+            }, 50);
+
+            document.getElementById('results').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalidofit's Macro Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .macro-bar { transition: width 1s ease-in-out; }
+    </style>
+</head>
+<body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative bg-slate-950" onload="toggleBodyFatImages()">
+    
+    <div class="relative z-10 max-w-2xl w-full bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 p-6 md:p-8 mt-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                KALIDOFIT'S MACRO CALCULATOR
+            </h1>
+            <p class="text-slate-300 mt-2 font-medium">Discover your exact daily caloric and macro targets. (እንኳን በደህና መጡ!)</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-semibold mb-2">Gender (ፆታ)</label>
+                <select id="gender" onchange="toggleBodyFatImages()" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="male">Male (ወንድ)</option>
+                    <option value="female">Female (ሴት)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-2">Age in years (እድሜ)</label>
+                <input type="number" id="age" value="25" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-2">Weight in kg (ክብደት)</label>
+                <input type="number" id="weight" value="70" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-2">Height in cm (ቁመት)</label>
+                <input type="number" id="height" value="175" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-2">Activity Level (የእንቅስቃሴ ደረጃ)</label>
+                <select id="activity" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="1.2">Little to no exercise</option>
+                    <option value="1.375">Light exercise</option>
+                    <option value="1.55">Moderate exercise</option>
+                    <option value="1.725">Heavy exercise</option>
+                </select>
+            </div>
+
+            <!-- Body Fat Chart Image Section -->
+            <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                <label class="block text-sm font-semibold mb-3 text-orange-400">Body Fat Reference Chart</label>
+                
+                <!-- Male Chart Image -->
+                <div id="bf-male-section" class="text-center">
+                    <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
+                </div>
+
+                <!-- Female Chart Image -->
+                <div id="bf-female-section" class="text-center hidden">
+                    <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
+                </div>
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-2">Diet Preference (የአመጋገብ ምርጫ)</label>
+                <select id="diet" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="balanced">Balanced (ሚዛናዊ)</option>
+                    <option value="high-protein">High Protein</option>
+                    <option value="low-carb">Low Carb</option>
+                    <option value="keto">Keto</option>
+                </select>
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-2">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Lose Fat</button>
+                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm">Maintain</button>
+                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Gain Muscle</button>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 text-slate-950 font-extrabold text-lg py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+            Calculate My Targets
+        </button>
+
+        <div id="results" class="hidden mt-8 pt-8 border-t border-slate-600">
+            <h2 class="text-xl font-bold mb-4 text-center text-orange-400">Your Results</h2>
+            <div class="grid grid-cols-2 gap-4 text-center mb-6">
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 shadow-inner">
+                    <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Your TDEE</span>
+                    <div id="tdee-val" class="text-2xl font-extrabold text-white mt-1">0</div>
+                </div>
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                    <span class="text-xs text-orange-400 uppercase font-bold tracking-wider">Target Calories</span>
+                    <div id="target-calories" class="text-2xl font-extrabold text-orange-400 mt-1">0</div>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3 text-center">Daily Macros Breakdown</h3>
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
+                    <div class="text-xs font-semibold text-amber-400">Protein</div>
+                    <div id="protein-val" class="text-lg font-bold mt-1 mb-2">0g</div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <div id="protein-bar" class="bg-amber-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
+                    <div class="text-xs font-semibold text-cyan-400">Carbs</div>
+                    <div id="carbs-val" class="text-lg font-bold mt-1 mb-2">0g</div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <div id="carbs-bar" class="bg-cyan-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
+                    <div class="text-xs font-semibold text-rose-400">Fats</div>
+                    <div id="fats-val" class="text-lg font-bold mt-1 mb-2">0g</div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <div id="fats-bar" class="bg-rose-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brand Footer -->
+    <div class="relative z-10 mt-8 mb-8 text-center">
+        <p class="text-slate-400 text-sm font-medium">Created by <span class="text-orange-400 font-bold tracking-wider">Kalid Akmel</span></p>
+        <div class="flex justify-center gap-6 mt-4">
+            <a href="https://www.instagram.com/kalid._.akmel?igsh=MW5hbXlnazNocWdhOQ==" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Instagram</a>
+            <span class="text-slate-600">•</span>
+            <a href="https://tiktok.com/@kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">TikTok</a>
+            <span class="text-slate-600">•</span>
+            <a href="https://linktr.ee/kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Linktree</a>
+        </div>
+    </div>
+
+    <script>
+        let currentGoal = 'maintain';
+
+        function toggleBodyFatImages() {
+            const gender = document.getElementById('gender').value;
+            const maleSection = document.getElementById('bf-male-section');
+            const femaleSection = document.getElementById('bf-female-section');
+
+            if (gender === 'male') {
+                maleSection.classList.remove('hidden');
+                femaleSection.classList.add('hidden');
+            } else {
+                maleSection.classList.add('hidden');
+                femaleSection.classList.remove('hidden');
+            }
+        }
+
+        function setGoal(goal) {
+            currentGoal = goal;
+            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById(`goal-${goal}`).className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm";
+        }
+
+        function calculate() {
+            const gender = document.getElementById('gender').value;
+            const age = parseFloat(document.getElementById('age').value);
+            const weightKg = parseFloat(document.getElementById('weight').value);
+            const heightCm = parseFloat(document.getElementById('height').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            const diet = document.getElementById('diet').value;
+
+            let bmr = 0;
+            if (gender === 'male') {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+            } else {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+            }
+
+            const tdee = Math.round(bmr * activity);
+            let targetCalories = tdee;
+
+            if (currentGoal === 'lose') targetCalories = Math.round(tdee - 500);
+            if (currentGoal === 'gain') targetCalories = Math.round(tdee + 300);
+
+            let pPct = 0.30, cPct = 0.40, fPct = 0.30; 
+            if (diet === 'high-protein') {
+                pPct = 0.40; cPct = 0.30; fPct = 0.30;
+            } else if (diet === 'low-carb') {
+                pPct = 0.40; cPct = 0.20; fPct = 0.40;
+            } else if (diet === 'keto') {
+                pPct = 0.25; cPct = 0.05; fPct = 0.70;
+            }
+
+            const proteinGrams = Math.round((targetCalories * pPct) / 4);
+            const carbsGrams = Math.round((targetCalories * cPct) / 4);
+            const fatGrams = Math.round((targetCalories * fPct) / 9);
 
             document.getElementById('tdee-val').innerText = tdee + " kcal";
             document.getElementById('target-calories').innerText = targetCalories + " kcal";
             document.getElementById('protein-val').innerText = proteinGrams + "g";
             document.getElementById('carbs-val').innerText = carbsGrams + "g";
             document.getElementById('fats-val').innerText = fatGrams + "g";
-            document.getElementById('water-val').innerText = waterLiters + " Liters";
+
+            setTimeout(() => {
+                document.getElementById('protein-bar').style.width = (pPct * 100) + "%";
+                document.getElementById('carbs-bar').style.width = (cPct * 100) + "%";
+                document.getElementById('fats-bar').style.width = (fPct * 100) + "%";
+            }, 50);
+
+            document.getElementById('results').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalidofit's Macro Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .macro-bar { transition: width 1s ease-in-out; }
+    </style>
+</head>
+<body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative bg-slate-950" onload="toggleBodyFatImages()">
+    
+    <div class="relative z-10 max-w-2xl w-full bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 p-6 md:p-8 mt-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                KALIDOFIT'S MACRO CALCULATOR
+            </h1>
+            <p class="text-slate-300 mt-2 font-medium">Discover your exact daily caloric and macro targets. (እንኳን በደህና መጡ!)</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-semibold mb-2">Gender (ፆታ)</label>
+                <select id="gender" onchange="toggleBodyFatImages()" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="male">Male (ወንድ)</option>
+                    <option value="female">Female (ሴት)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-2">Age in years (እድሜ)</label>
+                <input type="number" id="age" value="25" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-2">Weight in kg (ክብደት)</label>
+                <input type="number" id="weight" value="70" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-2">Height in cm (ቁመት)</label>
+                <input type="number" id="height" value="175" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-2">Activity Level (የእንቅስቃሴ ደረጃ)</label>
+                <select id="activity" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="1.2">Little to no exercise</option>
+                    <option value="1.375">Light exercise</option>
+                    <option value="1.55">Moderate exercise</option>
+                    <option value="1.725">Heavy exercise</option>
+                </select>
+            </div>
+
+            <!-- Body Fat Chart Image Section -->
+            <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                <label class="block text-sm font-semibold mb-3 text-orange-400">Body Fat Reference Chart</label>
+                
+                <!-- Male Chart Image -->
+                <div id="bf-male-section" class="text-center">
+                    <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
+                </div>
+
+                <!-- Female Chart Image -->
+                <div id="bf-female-section" class="text-center hidden">
+                    <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
+                </div>
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-2">Diet Preference (የአመጋገብ ምርጫ)</label>
+                <select id="diet" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
+                    <option value="balanced">Balanced (ሚዛናዊ)</option>
+                    <option value="high-protein">High Protein</option>
+                    <option value="low-carb">Low Carb</option>
+                    <option value="keto">Keto</option>
+                </select>
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-semibold mb-2">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Lose Fat</button>
+                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm">Maintain</button>
+                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Gain Muscle</button>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 text-slate-950 font-extrabold text-lg py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+            Calculate My Targets
+        </button>
+
+        <div id="results" class="hidden mt-8 pt-8 border-t border-slate-600">
+            <h2 class="text-xl font-bold mb-4 text-center text-orange-400">Your Results</h2>
+            <div class="grid grid-cols-2 gap-4 text-center mb-6">
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 shadow-inner">
+                    <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Your TDEE</span>
+                    <div id="tdee-val" class="text-2xl font-extrabold text-white mt-1">0</div>
+                </div>
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                    <span class="text-xs text-orange-400 uppercase font-bold tracking-wider">Target Calories</span>
+                    <div id="target-calories" class="text-2xl font-extrabold text-orange-400 mt-1">0</div>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3 text-center">Daily Macros Breakdown</h3>
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
+                    <div class="text-xs font-semibold text-amber-400">Protein</div>
+                    <div id="protein-val" class="text-lg font-bold mt-1 mb-2">0g</div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <div id="protein-bar" class="bg-amber-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
+                    <div class="text-xs font-semibold text-cyan-400">Carbs</div>
+                    <div id="carbs-val" class="text-lg font-bold mt-1 mb-2">0g</div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <div id="carbs-bar" class="bg-cyan-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
+                    <div class="text-xs font-semibold text-rose-400">Fats</div>
+                    <div id="fats-val" class="text-lg font-bold mt-1 mb-2">0g</div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <div id="fats-bar" class="bg-rose-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brand Footer -->
+    <div class="relative z-10 mt-8 mb-8 text-center">
+        <p class="text-slate-400 text-sm font-medium">Created by <span class="text-orange-400 font-bold tracking-wider">Kalid Akmel</span></p>
+        <div class="flex justify-center gap-6 mt-4">
+            <a href="https://www.instagram.com/kalid._.akmel?igsh=MW5hbXlnazNocWdhOQ==" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Instagram</a>
+            <span class="text-slate-600">•</span>
+            <a href="https://tiktok.com/@kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">TikTok</a>
+            <span class="text-slate-600">•</span>
+            <a href="https://linktr.ee/kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Linktree</a>
+        </div>
+    </div>
+
+    <script>
+        let currentGoal = 'maintain';
+
+        function toggleBodyFatImages() {
+            const gender = document.getElementById('gender').value;
+            const maleSection = document.getElementById('bf-male-section');
+            const femaleSection = document.getElementById('bf-female-section');
+
+            if (gender === 'male') {
+                maleSection.classList.remove('hidden');
+                femaleSection.classList.add('hidden');
+            } else {
+                maleSection.classList.add('hidden');
+                femaleSection.classList.remove('hidden');
+            }
+        }
+
+        function setGoal(goal) {
+            currentGoal = goal;
+            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
+            document.getElementById(`goal-${goal}`).className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm";
+        }
+
+        function calculate() {
+            const gender = document.getElementById('gender').value;
+            const age = parseFloat(document.getElementById('age').value);
+            const weightKg = parseFloat(document.getElementById('weight').value);
+            const heightCm = parseFloat(document.getElementById('height').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            const diet = document.getElementById('diet').value;
+
+            let bmr = 0;
+            if (gender === 'male') {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+            } else {
+                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+            }
+
+            const tdee = Math.round(bmr * activity);
+            let targetCalories = tdee;
+
+            if (currentGoal === 'lose') targetCalories = Math.round(tdee - 500);
+            if (currentGoal === 'gain') targetCalories = Math.round(tdee + 300);
+
+            let pPct = 0.30, cPct = 0.40, fPct = 0.30; 
+            if (diet === 'high-protein') {
+                pPct = 0.40; cPct = 0.30; fPct = 0.30;
+            } else if (diet === 'low-carb') {
+                pPct = 0.40; cPct = 0.20; fPct = 0.40;
+            } else if (diet === 'keto') {
+                pPct = 0.25; cPct = 0.05; fPct = 0.70;
+            }
+
+            const proteinGrams = Math.round((targetCalories * pPct) / 4);
+            const carbsGrams = Math.round((targetCalories * cPct) / 4);
+            const fatGrams = Math.round((targetCalories * fPct) / 9);
+
+            document.getElementById('tdee-val').innerText = tdee + " kcal";
+            document.getElementById('target-calories').innerText = targetCalories + " kcal";
+            document.getElementById('protein-val').innerText = proteinGrams + "g";
+            document.getElementById('carbs-val').innerText = carbsGrams + "g";
+            document.getElementById('fats-val').innerText = fatGrams + "g";
 
             setTimeout(() => {
                 document.getElementById('protein-bar').style.width = (pPct * 100) + "%";
