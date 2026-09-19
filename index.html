@@ -7,6 +7,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .macro-bar { transition: width 1s ease-in-out; }
+        /* Active highlight styling for selected body fat button */
+        .bf-btn input:checked + label {
+            background-color: #f97316;
+            color: #0f172a;
+            border-color: #f97316;
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative bg-slate-950" onload="toggleBodyFatImages()">
@@ -53,18 +62,57 @@
                 </select>
             </div>
 
-            <!-- Body Fat Chart Image Section -->
+            <!-- Body Fat Chart & Interactive Selector -->
             <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <label class="block text-sm font-semibold mb-3 text-orange-400">Body Fat Reference Chart</label>
+                <label class="block text-sm font-semibold mb-1 text-orange-400">Body Fat % (Select your body type from chart below)</label>
+                <p class="text-xs text-slate-400 mb-3">Compare with chart, then click the matching percentage button below.</p>
                 
-                <!-- Male Chart Image -->
-                <div id="bf-male-section" class="text-center">
+                <!-- Male Chart Image & Buttons -->
+                <div id="bf-male-section" class="space-y-4">
                     <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="m-bf1" value="10" class="hidden">
+                            <label for="m-bf1" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">8 - 12%<br><span class="text-[10px] opacity-75">Lean / Cut</span></label>
+                        </div>
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="m-bf2" value="15" class="hidden">
+                            <label for="m-bf2" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">13 - 17%<br><span class="text-[10px] opacity-75">Athletic</span></label>
+                        </div>
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="m-bf3" value="20" class="hidden">
+                            <label for="m-bf3" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">18 - 24%<br><span class="text-[10px] opacity-75">Average</span></label>
+                        </div>
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="m-bf4" value="27" class="hidden">
+                            <label for="m-bf4" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">25%+<br><span class="text-[10px] opacity-75">Higher</span></label>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Female Chart Image -->
-                <div id="bf-female-section" class="text-center hidden">
+                <!-- Female Chart Image & Buttons -->
+                <div id="bf-female-section" class="space-y-4 hidden">
                     <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full rounded-lg border border-slate-700 shadow-md">
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="f-bf1" value="20" class="hidden">
+                            <label for="f-bf1" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">18 - 22%<br><span class="text-[10px] opacity-75">Lean / Cut</span></label>
+                        </div>
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="f-bf2" value="25" class="hidden">
+                            <label for="f-bf2" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">23 - 27%<br><span class="text-[10px] opacity-75">Athletic</span></label>
+                        </div>
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="f-bf3" value="30" class="hidden">
+                            <label for="f-bf3" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">28 - 34%<br><span class="text-[10px] opacity-75">Average</span></label>
+                        </div>
+                        <div class="bf-btn">
+                            <input type="radio" name="bodyFat" id="f-bf4" value="36" class="hidden">
+                            <label for="f-bf4" class="block text-center p-2.5 rounded-lg bg-slate-800 border border-slate-600 cursor-pointer hover:bg-slate-700 transition text-xs font-semibold">35%+<br><span class="text-[10px] opacity-75">Higher</span></label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -129,6 +177,12 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mt-6 bg-blue-900/40 p-4 rounded-xl border border-blue-500/30 text-center shadow-lg">
+                <span class="text-xs text-blue-400 uppercase font-bold tracking-wider">Daily Water Target (የውሃ ፍላጎት)</span>
+                <div id="water-val" class="text-2xl font-extrabold text-blue-300 mt-1">0 L</div>
+                <p class="text-xs text-blue-200/50 mt-1">Based on your weight & activity level</p>
+            </div>
         </div>
     </div>
 
@@ -151,6 +205,10 @@
             const gender = document.getElementById('gender').value;
             const maleSection = document.getElementById('bf-male-section');
             const femaleSection = document.getElementById('bf-female-section');
+
+            // Reset selected body fat when gender switches
+            const radios = document.querySelectorAll('input[name="bodyFat"]');
+            radios.forEach(radio => radio.checked = false);
 
             if (gender === 'male') {
                 maleSection.classList.remove('hidden');
@@ -177,11 +235,22 @@
             const activity = parseFloat(document.getElementById('activity').value);
             const diet = document.getElementById('diet').value;
 
+            // Get selected body fat if any
+            const bodyFatElement = document.querySelector('input[name="bodyFat"]:checked');
+            const bodyFatPct = bodyFatElement ? parseFloat(bodyFatElement.value) : null;
+
             let bmr = 0;
-            if (gender === 'male') {
-                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+            if (bodyFatPct) {
+                // Katch-McArdle Formula (Elite Accuracy using Body Fat %)
+                const leanBodyMass = weightKg * (1 - (bodyFatPct / 100));
+                bmr = 370 + (21.6 * leanBodyMass);
             } else {
-                bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+                // Mifflin-St Jeor Formula
+                if (gender === 'male') {
+                    bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+                } else {
+                    bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+                }
             }
 
             const tdee = Math.round(bmr * activity);
@@ -203,11 +272,18 @@
             const carbsGrams = Math.round((targetCalories * cPct) / 4);
             const fatGrams = Math.round((targetCalories * fPct) / 9);
 
+            let extraWater = 0;
+            if (activity === 1.375) extraWater = 0.4;
+            if (activity === 1.55) extraWater = 0.8;
+            if (activity === 1.725) extraWater = 1.2;
+            const waterLiters = ((weightKg * 0.033) + extraWater).toFixed(1);
+
             document.getElementById('tdee-val').innerText = tdee + " kcal";
             document.getElementById('target-calories').innerText = targetCalories + " kcal";
             document.getElementById('protein-val').innerText = proteinGrams + "g";
             document.getElementById('carbs-val').innerText = carbsGrams + "g";
             document.getElementById('fats-val').innerText = fatGrams + "g";
+            document.getElementById('water-val').innerText = waterLiters + " Liters";
 
             setTimeout(() => {
                 document.getElementById('protein-bar').style.width = (pPct * 100) + "%";
@@ -220,4 +296,3 @@
     </script>
 </body>
 </html>
-
