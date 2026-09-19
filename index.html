@@ -10,17 +10,8 @@
         /* Smooth animation for the macro bars */
         .macro-bar { transition: width 1s ease-in-out; }
         
-        /* CSS Sprite styling to perfectly slice the body fat collages */
-        .bf-sprite {
-            width: 100%;
-            padding-top: 100%; /* Creates a perfect square */
-            background-size: 300% 300%;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease-in-out;
-            border: 2px solid transparent;
-        }
-        
-        .bf-card input:checked + .bf-sprite {
+        /* Body Fat Image Selection Styling */
+        .bf-card input:checked + img {
             border-color: #f97316; /* Orange border */
             box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
             transform: scale(1.05);
@@ -44,7 +35,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-semibold mb-2">Gender (ፆታ)</label>
-                <!-- Added onchange to swap the body fat pictures dynamically -->
+                <!-- Automatically swaps images when gender changes -->
                 <select id="gender" onchange="toggleBodyFatImages()" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
                     <option value="male">Male (ወንድ)</option>
                     <option value="female">Female (ሴት)</option>
@@ -80,36 +71,43 @@
             <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
                 <label class="block text-sm font-semibold mb-3 text-orange-400">Body Fat % (Optional - For Elite Accuracy)</label>
                 
-                <!-- Male Images Grid -->
-                <div id="bf-male-section" class="grid grid-cols-3 gap-2 hidden">
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="2.5" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 0% 0%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="6" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 50% 0%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="9" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 100% 0%;"></div></label>
-                    
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="11.5" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 0% 50%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="14" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 50% 50%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="17.5" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 100% 50%;"></div></label>
-                    
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="22" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 0% 100%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="27.5" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 50% 100%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="37.5" class="hidden"><div class="bf-sprite" style="background-image: url('1000042448.jpg'); background-position: 100% 100%;"></div></label>
+                <!-- Male Image Options -->
+                <div id="bf-male-section" class="flex gap-2 justify-between">
+                    <label class="bf-card cursor-pointer text-center w-1/3">
+                        <input type="radio" name="bodyFat" value="11" class="hidden">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop" alt="Male Lean" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
+                        <span class="block text-xs font-bold mt-2 text-slate-300">10-12% (Lean)</span>
+                    </label>
+                    <label class="bf-card cursor-pointer text-center w-1/3">
+                        <input type="radio" name="bodyFat" value="16" class="hidden">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=200&auto=format&fit=crop" alt="Male Average" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
+                        <span class="block text-xs font-bold mt-2 text-slate-300">15-17% (Average)</span>
+                    </label>
+                    <label class="bf-card cursor-pointer text-center w-1/3">
+                        <input type="radio" name="bodyFat" value="25" class="hidden">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop" alt="Male Higher" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200 opacity-80">
+                        <span class="block text-xs font-bold mt-2 text-slate-300">25%+ (Higher)</span>
+                    </label>
                 </div>
 
-                <!-- Female Images Grid -->
-                <div id="bf-female-section" class="grid grid-cols-3 gap-2 hidden">
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="13" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 0% 0%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="16" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 50% 0%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="19" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 100% 0%;"></div></label>
-                    
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="22" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 0% 50%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="25" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 50% 50%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="28" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 100% 50%;"></div></label>
-                    
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="32.5" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 0% 100%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="38" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 50% 100%;"></div></label>
-                    <label class="bf-card cursor-pointer"><input type="radio" name="bodyFat" value="50" class="hidden"><div class="bf-sprite" style="background-image: url('1000042449.png'); background-position: 100% 100%;"></div></label>
+                <!-- Female Image Options -->
+                <div id="bf-female-section" class="flex gap-2 justify-between hidden">
+                    <label class="bf-card cursor-pointer text-center w-1/3">
+                        <input type="radio" name="bodyFat" value="19" class="hidden">
+                        <img src="https://images.unsplash.com/photo-1611672582845-814041b6cce7?q=80&w=200&auto=format&fit=crop" alt="Female Lean" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
+                        <span class="block text-xs font-bold mt-2 text-slate-300">18-20% (Lean)</span>
+                    </label>
+                    <label class="bf-card cursor-pointer text-center w-1/3">
+                        <input type="radio" name="bodyFat" value="25" class="hidden">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=200&auto=format&fit=crop" alt="Female Average" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200">
+                        <span class="block text-xs font-bold mt-2 text-slate-300">24-26% (Average)</span>
+                    </label>
+                    <label class="bf-card cursor-pointer text-center w-1/3">
+                        <input type="radio" name="bodyFat" value="32" class="hidden">
+                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=200&auto=format&fit=crop" alt="Female Higher" class="w-full h-24 object-cover rounded-lg border-2 border-transparent transition duration-200 opacity-80">
+                        <span class="block text-xs font-bold mt-2 text-slate-300">30%+ (Higher)</span>
+                    </label>
                 </div>
-                <p class="text-xs text-slate-400 mt-3 text-center">Tap the image that closest matches your current physique.</p>
             </div>
 
             <div class="md:col-span-2">
@@ -204,13 +202,13 @@
     <script>
         let currentGoal = 'maintain';
 
-        // Function to show/hide the correct body fat images based on gender
+        // Toggles Male/Female Images Dynamically
         function toggleBodyFatImages() {
             const gender = document.getElementById('gender').value;
             const maleSection = document.getElementById('bf-male-section');
             const femaleSection = document.getElementById('bf-female-section');
             
-            // Clear any previously selected images when gender changes
+            // Clear prior selection when gender changes
             const radios = document.querySelectorAll('input[name="bodyFat"]');
             radios.forEach(radio => radio.checked = false);
 
