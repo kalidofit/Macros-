@@ -53,87 +53,113 @@
                 </select>
             </div>
 
-            <!-- Interactive Body Fat Chart (Click Directly on Images) -->
+            <!-- Interactive 3x3 Body Fat Chart Grid -->
             <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <label class="block text-sm font-semibold mb-1 text-orange-400">Body Fat % (Tap your body type picture below)</label>
-                <p class="text-xs text-slate-400 mb-3">Tap directly on any photo in the chart to select your range.</p>
+                <label class="block text-sm font-semibold mb-1 text-orange-400">Body Fat % (Tap your body type directly on the chart)</label>
+                <p class="text-xs text-slate-400 mb-3">Tap any of the 9 photos to select your range.</p>
                 
-                <!-- Male Interactive Image Grid -->
+                <!-- Male 3x3 Grid Overlay -->
                 <div id="bf-male-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md">
                     <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full h-auto block select-none">
                     
-                    <!-- Overlay Clickable Areas -->
-                    <div class="absolute inset-0 grid grid-cols-4">
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="10" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                8 - 12%
-                            </div>
+                    <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
+                        <!-- 4 - 5% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="4.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
-
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="15" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                13 - 17%
-                            </div>
+                        <!-- 6 - 7% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="6.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
-
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="20" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                18 - 24%
-                            </div>
+                        <!-- 8 - 10% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="9" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
-
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="27" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                25%+
-                            </div>
+                        <!-- 11 - 12% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="11.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 13 - 15% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="14" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 16 - 19% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="17.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 20 - 24% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="22" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 25 - 30% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="27.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 35 - 40% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="37.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
                     </div>
                 </div>
 
-                <!-- Female Interactive Image Grid -->
+                <!-- Female 3x3 Grid Overlay -->
                 <div id="bf-female-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md hidden">
                     <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full h-auto block select-none">
                     
-                    <!-- Overlay Clickable Areas -->
-                    <div class="absolute inset-0 grid grid-cols-4">
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="20" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                18 - 22%
-                            </div>
+                    <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
+                        <!-- 12 - 14% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="13" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
-
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
+                        <!-- 15 - 17% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="16" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 18 - 20% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="19" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 21 - 23% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="22" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 24 - 26% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
                             <input type="radio" name="bodyFat" value="25" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                23 - 27%
-                            </div>
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
-
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="30" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                28 - 34%
-                            </div>
+                        <!-- 27 - 29% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="28" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
-
-                        <label class="relative cursor-pointer group flex flex-col justify-between p-1 transition-all">
-                            <input type="radio" name="bodyFat" value="36" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/20 peer-checked:shadow-[inset_0_0_15px_rgba(249,115,22,0.4)] transition-all"></div>
-                            <div class="relative z-10 self-center mt-auto mb-1 bg-slate-900/90 peer-checked:bg-orange-500 peer-checked:text-slate-950 text-white text-[10px] sm:text-xs font-bold py-1 px-1.5 md:px-2.5 rounded-full border border-slate-600 peer-checked:border-orange-400 transition-all text-center">
-                                35%+
-                            </div>
+                        <!-- 30 - 35% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="32.5" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 36 - 40% -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="38" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
+                        </label>
+                        <!-- 50%+ -->
+                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
+                            <input type="radio" name="bodyFat" value="50" class="peer hidden">
+                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
                         </label>
                     </div>
                 </div>
@@ -315,3 +341,4 @@
     </script>
 </body>
 </html>
+
