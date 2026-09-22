@@ -3,251 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalidofit's Macro Calculator</title>
+    <title>Kalidofit Nutrition Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .macro-bar { transition: width 1s ease-in-out; }
     </style>
 </head>
-<body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative bg-slate-950" onload="toggleBodyFatImages()">
-    
-    <div class="relative z-10 max-w-2xl w-full bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 p-6 md:p-8 mt-8">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-                KALIDOFIT'S MACRO CALCULATOR
+<body class="text-slate-100 font-sans min-h-screen flex flex-col items-center justify-start p-4 relative bg-slate-950 selection:bg-orange-500 selection:text-slate-950" onload="toggleBodyFatImages()">
+
+    <!-- Main Container -->
+    <div class="relative z-10 max-w-2xl w-full my-6">
+
+        <!-- 1. HERO / HEADER SECTION -->
+        <div class="text-center mb-6">
+            <!-- Ethiopian Identity Badge -->
+            <div class="inline-flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 mb-4 shadow-sm">
+                <span>🇪🇹</span>
+                <span>Made for Ethiopian lifters & fitness enthusiasts</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 bg-clip-text text-transparent uppercase">
+                KALIDOFIT NUTRITION CALCULATOR
             </h1>
-            <p class="text-slate-300 mt-2 font-medium">Discover your exact daily caloric and macro targets. (እንኳን በደህና መጡ!)</p>
+
+            <!-- Subtitle -->
+            <p class="text-lg font-bold text-slate-200 mt-2">
+                Know your calories. Build your plan. Transform your body.
+            </p>
+
+            <!-- Supporting Text -->
+            <p class="text-sm text-slate-400 mt-1 max-w-md mx-auto">
+                Free personalized calorie & macro targets based on your body, activity and goal.
+            </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-sm font-semibold mb-2">Gender (ፆታ)</label>
-                <select id="gender" onchange="toggleBodyFatImages()" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-                    <option value="male">Male (ወንድ)</option>
-                    <option value="female">Female (ሴት)</option>
-                </select>
-            </div>
+        <!-- 2. KALIDOFIT COACH BRANDING -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700/80 rounded-xl p-3.5 mb-6 text-center shadow-lg">
+            <p class="text-xs text-orange-400 uppercase font-bold tracking-widest">Built by Kalid Akmel</p>
+            <p class="text-sm font-semibold text-slate-200 mt-0.5">
+                🏆 Physique Competitor &bull; Personal Trainer &bull; Online Coach
+            </p>
+        </div>
 
-            <div>
-                <label class="block text-sm font-semibold mb-2">Age in years (እድሜ)</label>
-                <input type="number" id="age" value="25" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-            </div>
+        <!-- CALCULATOR CARD -->
+        <div class="bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700/80 p-5 md:p-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Gender -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-slate-200">Gender (ፆታ)</label>
+                    <select id="gender" onchange="toggleBodyFatImages()" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-orange-400">
+                        <option value="male">Male (ወንድ)</option>
+                        <option value="female">Female (ሴት)</option>
+                    </select>
+                </div>
 
-            <div>
-                <label class="block text-sm font-semibold mb-2">Weight in kg (ክብደት)</label>
-                <input type="number" id="weight" value="70" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-            </div>
+                <!-- Age -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-slate-200">Age in years (እድሜ)</label>
+                    <input type="number" id="age" value="25" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-orange-400">
+                </div>
 
-            <div>
-                <label class="block text-sm font-semibold mb-2">Height in cm (ቁመት)</label>
-                <input type="number" id="height" value="175" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-            </div>
+                <!-- Weight -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-slate-200">Weight in kg (ክብደት)</label>
+                    <input type="number" id="weight" value="70" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-orange-400">
+                </div>
 
-            <div class="md:col-span-2">
-                <label class="block text-sm font-semibold mb-2">Activity Level (የእንቅስቃሴ ደረጃ)</label>
-                <select id="activity" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-                    <option value="1.2">Little to no exercise</option>
-                    <option value="1.375">Light exercise</option>
-                    <option value="1.55">Moderate exercise</option>
-                    <option value="1.725">Heavy exercise</option>
-                </select>
-            </div>
+                <!-- Height -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-slate-200">Height in cm (ቁመት)</label>
+                    <input type="number" id="height" value="175" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-orange-400">
+                </div>
 
-            <!-- Interactive 3x3 Body Fat Chart Grid -->
-            <div class="md:col-span-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <label class="block text-sm font-semibold mb-1 text-orange-400">Body fat % የሰውነት ስብ %</label>
-                <p class="text-xs text-slate-300">Tap any of the 9 photos to select your range.</p>
-                <p class="text-xs text-slate-400 mb-3">ከ9ቱ ፎቶዎች ውስጥ ከሰውነታቹ ጋር የሚቀራረበውን ምስል መርጠው ይንኩ።</p>
-                
-                <!-- Male 3x3 Grid Overlay -->
-                <div id="bf-male-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md">
-                    <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full h-auto block select-none">
+                <!-- Activity Level -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold mb-1 text-slate-200">Activity Level (የእንቅስቃሴ ደረጃ)</label>
+                    <select id="activity" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-orange-400">
+                        <option value="1.2">Little to no exercise</option>
+                        <option value="1.375">Light exercise (1-3 days/wk)</option>
+                        <option value="1.55">Moderate exercise (3-5 days/wk)</option>
+                        <option value="1.725">Heavy exercise (6-7 days/wk)</option>
+                    </select>
+                </div>
+
+                <!-- 3. BODY FAT % INPUT -->
+                <div class="md:col-span-2 bg-slate-900/60 p-4 rounded-xl border border-slate-700/80">
+                    <label class="block text-sm font-bold text-orange-400">Estimated Body Fat % (Optional) የሰውነት ስብ %</label>
+                    <p class="text-xs text-slate-400 font-medium">Not sure? You can skip this.</p>
+                    <p class="text-xs text-slate-300 mt-1">Tap any of the 9 photos to select your range.</p>
+                    <p class="text-xs text-slate-400 mb-3">ከ9ቱ ፎቶዎች ውስጥ ከሰውነታቹ ጋር የሚቀራረበውን ምስል መርጠው ይንኩ።</p>
                     
-                    <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
-                        <!-- 4 - 5% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="4.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 6 - 7% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="6.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 8 - 10% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="9" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 11 - 12% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="11.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 13 - 15% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="14" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 16 - 19% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="17.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 20 - 24% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="22" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 25 - 30% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="27.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 35 - 40% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="37.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
+                    <!-- Male 3x3 Grid Overlay -->
+                    <div id="bf-male-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md">
+                        <img src="mealBodyFat.png" alt="Male Body Fat Chart" class="w-full h-auto block select-none">
+                        
+                        <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="4.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="6.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="9" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="11.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="14" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="17.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="22" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="27.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="37.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                        </div>
+                    </div>
+
+                    <!-- Female 3x3 Grid Overlay -->
+                    <div id="bf-female-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md hidden">
+                        <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full h-auto block select-none">
+                        
+                        <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="13" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="16" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="19" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="22" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="25" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="28" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="32.5" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="38" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                            <label class="relative cursor-pointer rounded-lg overflow-hidden"><input type="radio" name="bodyFat" value="50" class="peer hidden"><div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div></label>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Female 3x3 Grid Overlay -->
-                <div id="bf-female-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md hidden">
-                    <img src="femalebodyfat.png" alt="Female Body Fat Chart" class="w-full h-auto block select-none">
-                    
-                    <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
-                        <!-- 12 - 14% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="13" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 15 - 17% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="16" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 18 - 20% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="19" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 21 - 23% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="22" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 24 - 26% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="25" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 27 - 29% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="28" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 30 - 35% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="32.5" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 36 - 40% -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="38" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
-                        <!-- 50%+ -->
-                        <label class="relative cursor-pointer rounded-lg overflow-hidden">
-                            <input type="radio" name="bodyFat" value="50" class="peer hidden">
-                            <div class="absolute inset-0 border-2 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/30 peer-checked:shadow-[0_0_15px_rgba(249,115,22,0.5)] rounded-lg transition-all"></div>
-                        </label>
+                <!-- Diet Preference -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold mb-1 text-slate-200">Diet Preference (የአመጋገብ ምርጫ)</label>
+                    <select id="diet" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-orange-400">
+                        <option value="balanced">Balanced (ሚዛናዊ)</option>
+                        <option value="high-protein">High Protein</option>
+                        <option value="low-carb">Low Carb</option>
+                        <option value="keto">Keto</option>
+                    </select>
+                </div>
+
+                <!-- Fitness Goal -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold mb-2 text-slate-200">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-xl bg-slate-900 border border-slate-700 font-semibold hover:bg-slate-700 transition text-sm text-slate-300">Lose Fat</button>
+                        <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-xl bg-orange-500 border border-orange-400 font-bold text-slate-950 transition text-sm">Maintain</button>
+                        <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-xl bg-slate-900 border border-slate-700 font-semibold hover:bg-slate-700 transition text-sm text-slate-300">Gain Muscle</button>
                     </div>
                 </div>
             </div>
 
-            <div class="md:col-span-2">
-                <label class="block text-sm font-semibold mb-2">Diet Preference (የአመጋገብ ምርጫ)</label>
-                <select id="diet" class="w-full bg-slate-700/80 border border-slate-600 rounded-lg p-3 text-white focus:outline-none focus:border-orange-400">
-                    <option value="balanced">Balanced (ሚዛናዊ)</option>
-                    <option value="high-protein">High Protein</option>
-                    <option value="low-carb">Low Carb</option>
-                    <option value="keto">Keto</option>
-                </select>
-            </div>
+            <!-- 4. CALCULATE BUTTON -->
+            <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 hover:from-orange-500 hover:to-red-600 text-slate-950 font-black text-lg py-4 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.4)] transition transform hover:-translate-y-0.5 cursor-pointer uppercase tracking-wider">
+                CALCULATE MY TARGETS →
+            </button>
 
-            <div class="md:col-span-2">
-                <label class="block text-sm font-semibold mb-2">Your Fitness Goal (የአካል ብቃት ግብዎ)</label>
-                <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Lose Fat</button>
-                    <button onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm">Maintain</button>
-                    <button onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm">Gain Muscle</button>
+            <!-- 5. RESULTS SECTION -->
+            <div id="results" class="hidden mt-8 pt-8 border-t border-slate-700/80">
+                <div class="text-center mb-6">
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-400">YOUR DAILY TARGET</span>
+                    <div id="target-calories" class="text-4xl md:text-5xl font-black text-orange-400 mt-1 tracking-tight">0 kcal</div>
+                    <p class="text-xs text-slate-400 mt-1">Maintenance (TDEE): <span id="tdee-val" class="font-bold text-slate-300">0 kcal</span></p>
+                </div>
+
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 text-center">Daily Macros Breakdown</h3>
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-700 shadow-md">
+                        <div class="text-xs font-bold text-amber-400 uppercase tracking-wider">Protein</div>
+                        <div id="protein-val" class="text-xl font-black text-white mt-1 mb-2">0g</div>
+                        <div class="w-full bg-slate-800 rounded-full h-1.5">
+                            <div id="protein-bar" class="bg-amber-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-700 shadow-md">
+                        <div class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Carbs</div>
+                        <div id="carbs-val" class="text-xl font-black text-white mt-1 mb-2">0g</div>
+                        <div class="w-full bg-slate-800 rounded-full h-1.5">
+                            <div id="carbs-bar" class="bg-cyan-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-700 shadow-md">
+                        <div class="text-xs font-bold text-rose-400 uppercase tracking-wider">Fats</div>
+                        <div id="fats-val" class="text-xl font-black text-white mt-1 mb-2">0g</div>
+                        <div class="w-full bg-slate-800 rounded-full h-1.5">
+                            <div id="fats-bar" class="bg-rose-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Water Target -->
+                <div class="mt-5 bg-blue-950/40 p-4 rounded-xl border border-blue-500/30 text-center shadow-lg">
+                    <span class="text-xs text-blue-400 uppercase font-bold tracking-wider">Daily Water Target (የውሃ ፍላጎት)</span>
+                    <div id="water-val" class="text-2xl font-black text-blue-300 mt-0.5">0 L</div>
+                    <p class="text-xs text-blue-200/50 mt-0.5">Based on your weight & activity level</p>
+                </div>
+
+                <!-- Disclaimer Blockquote -->
+                <blockquote class="mt-6 p-3 bg-slate-900/50 rounded-lg border-l-4 border-orange-500 text-xs text-slate-400 italic">
+                    "These are estimated starting targets. Track your progress and adjust your intake based on your results."
+                </blockquote>
+
+                <!-- 6. YOUR NEXT STEP SECTION -->
+                <div class="mt-10 pt-8 border-t border-slate-700/80">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-black text-orange-400 tracking-tight uppercase">🔥 YOUR NEXT STEP</h3>
+                        <p class="text-base font-bold text-slate-200 mt-1">Numbers are only the beginning.</p>
+                        <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+                            Your training, food choices, recovery and progress all need to work together to reach your goal.
+                        </p>
+                    </div>
+
+                    <!-- 4 Feature Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80">
+                            <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                                <span>🍽️</span> Personalized Meal Plan
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">A plan built around your calories, preferences and available foods.</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80">
+                            <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                                <span>🏋️</span> Personalized Workout Plan
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Training designed around your goal, experience and schedule.</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80">
+                            <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                                <span>📊</span> Progress Tracking
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Track your weight, measurements and progress and adjust when needed.</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80">
+                            <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                                <span>💬</span> Coach Support
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Get guidance and adjustments throughout your journey.</p>
+                        </div>
+                    </div>
+
+                    <!-- 7. MAIN COACHING CTA -->
+                    <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-orange-950/40 p-6 rounded-2xl border border-orange-500/40 text-center shadow-xl">
+                        <p class="text-xs font-black uppercase text-orange-400 tracking-wider mb-1">
+                            WANT A PLAN BUILT SPECIFICALLY FOR YOU?
+                        </p>
+                        <p class="text-sm font-semibold text-slate-200 mb-4">
+                            Want me to build the full plan for you? I'll help you turn these numbers into actual meals, training, and real results.
+                        </p>
+                        <a href="https://linktr.ee/kalidofit" target="_blank" class="inline-block w-full bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-slate-950 font-black text-base py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 uppercase tracking-wider">
+                            START COACHING WITH KALID →
+                        </a>
+                        <p class="text-xs text-slate-400 mt-3 font-medium">
+                            Get your personalized nutrition + training plan with Kalidofit.
+                        </p>
+                    </div>
+
+                    <!-- 8. SHARE MY RESULTS CTA -->
+                    <div class="mt-4">
+                        <button onclick="shareResults()" class="w-full bg-slate-900 hover:bg-slate-700 text-slate-200 font-bold py-3.5 px-4 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 text-sm cursor-pointer">
+                            <span>📲</span> SHARE MY RESULTS
+                        </button>
+                    </div>
+
+                    <!-- 9. REFERRAL CTA -->
+                    <div class="mt-6 text-center bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <p class="text-xs font-bold uppercase text-slate-300">KNOW SOMEONE TRYING TO GET FIT?</p>
+                        <p class="text-xs text-slate-400 mt-0.5 mb-3">Send them the free Kalidofit Calculator 👇</p>
+                        <button onclick="shareCalculator()" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-orange-400 font-bold py-2.5 px-6 rounded-xl border border-orange-500/30 text-xs transition cursor-pointer">
+                            SHARE CALCULATOR
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <button onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 text-slate-950 font-extrabold text-lg py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 cursor-pointer">
-            Calculate My Targets
-        </button>
-
-        <div id="results" class="hidden mt-8 pt-8 border-t border-slate-600">
-            <h2 class="text-xl font-bold mb-4 text-center text-orange-400">Your Results</h2>
-            <div class="grid grid-cols-2 gap-4 text-center mb-6">
-                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 shadow-inner">
-                    <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Your TDEE</span>
-                    <div id="tdee-val" class="text-2xl font-extrabold text-white mt-1">0</div>
-                </div>
-                <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
-                    <span class="text-xs text-orange-400 uppercase font-bold tracking-wider">Target Calories</span>
-                    <div id="target-calories" class="text-2xl font-extrabold text-orange-400 mt-1">0</div>
-                </div>
+        <!-- 10. WHY KALIDOFIT / TRUST SECTION -->
+        <div class="mt-10">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-black text-orange-400 uppercase tracking-tight">WHY KALIDOFIT?</h3>
+                <p class="text-xs text-slate-400 mt-1">Why People Trust Kalidofit</p>
             </div>
 
-            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3 text-center">Daily Macros Breakdown</h3>
-            <div class="grid grid-cols-3 gap-3 text-center">
-                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
-                    <div class="text-xs font-semibold text-amber-400">Protein</div>
-                    <div id="protein-val" class="text-lg font-bold mt-1 mb-2">0g</div>
-                    <div class="w-full bg-slate-700 rounded-full h-1.5">
-                        <div id="protein-bar" class="bg-amber-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                    <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                        <span>🏆</span> Physique Competitor
                     </div>
+                    <p class="text-xs text-slate-400 mt-1">Real competitive bodybuilding experience.</p>
                 </div>
-                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
-                    <div class="text-xs font-semibold text-cyan-400">Carbs</div>
-                    <div id="carbs-val" class="text-lg font-bold mt-1 mb-2">0g</div>
-                    <div class="w-full bg-slate-700 rounded-full h-1.5">
-                        <div id="carbs-bar" class="bg-cyan-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                    <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                        <span>📚</span> Certified Fitness Coach
                     </div>
+                    <p class="text-xs text-slate-400 mt-1">Knowledge backed by fitness education.</p>
                 </div>
-                <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-600 shadow-md">
-                    <div class="text-xs font-semibold text-rose-400">Fats</div>
-                    <div id="fats-val" class="text-lg font-bold mt-1 mb-2">0g</div>
-                    <div class="w-full bg-slate-700 rounded-full h-1.5">
-                        <div id="fats-bar" class="bg-rose-400 h-1.5 rounded-full macro-bar" style="width: 0%"></div>
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                    <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                        <span>🇪🇹</span> Ethiopian Diet-Friendly Plans
                     </div>
+                    <p class="text-xs text-slate-400 mt-1">Practical nutrition using foods people can actually find and eat locally.</p>
                 </div>
-            </div>
-
-            <div class="mt-6 bg-blue-900/40 p-4 rounded-xl border border-blue-500/30 text-center shadow-lg">
-                <span class="text-xs text-blue-400 uppercase font-bold tracking-wider">Daily Water Target (የውሃ ፍላጎት)</span>
-                <div id="water-val" class="text-2xl font-extrabold text-blue-300 mt-1">0 L</div>
-                <p class="text-xs text-blue-200/50 mt-1">Based on your weight & activity level</p>
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                    <div class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                        <span>💪</span> Online & Personal Coaching
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Training and nutrition support for different goals.</p>
+                </div>
             </div>
         </div>
+
+        <!-- 11. SOCIAL MEDIA SECTION -->
+        <div class="mt-10 text-center bg-slate-900/80 p-6 rounded-2xl border border-slate-800">
+            <h4 class="text-xs font-black text-orange-400 uppercase tracking-widest mb-4">FOLLOW KALIDOFIT</h4>
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="https://www.instagram.com/kalid._.akmel?igsh=MW5hbXlnazNocWdhOQ==" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold flex items-center gap-2 transition">
+                    <span>📸</span> Instagram
+                </a>
+                <a href="https://tiktok.com/@kalidofit" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold flex items-center gap-2 transition">
+                    <span>🎵</span> TikTok
+                </a>
+                <a href="https://linktr.ee/kalidofit" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-orange-400 px-4 py-2.5 rounded-xl border border-orange-500/30 text-xs font-bold flex items-center gap-2 transition">
+                    <span>🔗</span> Coaching / Linktree
+                </a>
+            </div>
+        </div>
+
+        <!-- 12. FOOTER -->
+        <footer class="mt-10 mb-6 text-center text-slate-500 text-xs">
+            <p class="text-orange-400 font-extrabold text-sm tracking-wider">KALIDOFIT</p>
+            <p class="text-slate-400 font-medium mt-0.5">Train Smart. Eat Smart. Transform.</p>
+            <p class="mt-3 text-slate-600">© 2026 Kalidofit. All rights reserved.</p>
+        </footer>
+
     </div>
 
-    <!-- Brand Footer -->
-    <div class="relative z-10 mt-8 mb-8 text-center">
-        <p class="text-slate-400 text-sm font-medium">Created by <span class="text-orange-400 font-bold tracking-wider">Kalid Akmel</span></p>
-        <div class="flex justify-center gap-6 mt-4">
-            <a href="https://www.instagram.com/kalid._.akmel?igsh=MW5hbXlnazNocWdhOQ==" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Instagram</a>
-            <span class="text-slate-600">•</span>
-            <a href="https://tiktok.com/@kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">TikTok</a>
-            <span class="text-slate-600">•</span>
-            <a href="https://linktr.ee/kalidofit" target="_blank" class="text-slate-400 hover:text-white transition font-semibold text-sm">Linktree</a>
-        </div>
-    </div>
-
+    <!-- CALCULATOR LOGIC & SHARE HANDLERS -->
     <script>
         let currentGoal = 'maintain';
 
@@ -270,10 +358,11 @@
 
         function setGoal(goal) {
             currentGoal = goal;
-            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
-            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
-            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-slate-700 border border-slate-600 font-medium hover:bg-slate-600 transition text-sm";
-            document.getElementById(`goal-${goal}`).className = "goal-btn py-3 px-2 md:px-4 rounded-lg bg-orange-500 border border-orange-400 font-medium text-slate-900 transition text-sm";
+            document.getElementById('goal-lose').className = "goal-btn py-3 px-2 md:px-4 rounded-xl bg-slate-900 border border-slate-700 font-semibold hover:bg-slate-700 transition text-sm text-slate-300";
+            document.getElementById('goal-maintain').className = "goal-btn py-3 px-2 md:px-4 rounded-xl bg-slate-900 border border-slate-700 font-semibold hover:bg-slate-700 transition text-sm text-slate-300";
+            document.getElementById('goal-gain').className = "goal-btn py-3 px-2 md:px-4 rounded-xl bg-slate-900 border border-slate-700 font-semibold hover:bg-slate-700 transition text-sm text-slate-300";
+            
+            document.getElementById(`goal-${goal}`).className = "goal-btn py-3 px-2 md:px-4 rounded-xl bg-orange-500 border border-orange-400 font-bold text-slate-950 transition text-sm";
         }
 
         function calculate() {
@@ -324,8 +413,8 @@
             if (activity === 1.725) extraWater = 1.2;
             const waterLiters = ((weightKg * 0.033) + extraWater).toFixed(1);
 
-            document.getElementById('tdee-val').innerText = tdee + " kcal";
-            document.getElementById('target-calories').innerText = targetCalories + " kcal";
+            document.getElementById('tdee-val').innerText = tdee.toLocaleString() + " kcal";
+            document.getElementById('target-calories').innerText = targetCalories.toLocaleString() + " kcal";
             document.getElementById('protein-val').innerText = proteinGrams + "g";
             document.getElementById('carbs-val').innerText = carbsGrams + "g";
             document.getElementById('fats-val').innerText = fatGrams + "g";
@@ -338,6 +427,46 @@
             }, 50);
 
             document.getElementById('results').classList.remove('hidden');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function shareResults() {
+            const cal = document.getElementById('target-calories').innerText;
+            const p = document.getElementById('protein-val').innerText;
+            const c = document.getElementById('carbs-val').innerText;
+            const f = document.getElementById('fats-val').innerText;
+
+            const text = `MY KALIDOFIT TARGETS 🔥\n\nCalories: ${cal}\nProtein: ${p}\nCarbs: ${c}\nFats: ${f}\n\nCalculated with Kalidofit`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'My Kalidofit Targets',
+                        text: text,
+                        url: window.location.href
+                    });
+                } catch (e) {}
+            } else {
+                navigator.clipboard.writeText(text + "\n" + window.location.href);
+                alert("Results copied to clipboard!");
+            }
+        }
+
+        async function shareCalculator() {
+            const shareData = {
+                title: 'Kalidofit Nutrition Calculator',
+                text: 'Calculate your personalized calorie and macro targets with Kalidofit!',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (e) {}
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Calculator link copied to clipboard!");
+            }
         }
     </script>
 </body>
