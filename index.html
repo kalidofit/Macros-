@@ -20,7 +20,7 @@
     <!-- Main Container -->
     <div class="relative z-10 max-w-2xl w-full my-4">
 
-        <!-- LANGUAGE TOGGLE HEADER -->
+        <!-- 1. LANGUAGE TOGGLE HEADER -->
         <div class="flex justify-between items-center mb-6 bg-slate-900/80 p-2.5 rounded-2xl border border-slate-700/80 backdrop-blur-md">
             <span class="text-xs font-black tracking-widest text-orange-400 uppercase px-2">KALIDO FIT</span>
             <div class="bg-slate-800 p-1 rounded-xl border border-slate-700 flex text-xs font-bold">
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <!-- 1. HERO & COACH PROFILE HEADER -->
+        <!-- 2. HERO & COACH PROFILE HEADER -->
         <div class="bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700 p-6 mb-6 shadow-xl relative overflow-hidden">
             <div class="flex flex-col sm:flex-row items-center gap-5">
                 
@@ -357,7 +357,7 @@
                     <span class="am-only">"እነዚህ ግምታዊ መነሻ ግቦች ናቸው። እድገትዎን ይከታተሉ እና እንደ ውጤትዎ ማስተካከያ ያድርጉ።"</span>
                 </blockquote>
 
-                <!-- REAL CLIENT TRANSFORMATIONS / SOCIAL PROOF -->
+                <!-- 3. REAL CLIENT TRANSFORMATIONS / SOCIAL PROOF -->
                 <div class="mt-12 pt-8 border-t border-slate-700">
                     <div class="text-center mb-6">
                         <span class="text-xs font-black uppercase tracking-widest text-orange-400">PROVEN RESULTS</span>
@@ -406,7 +406,7 @@
             </div>
         </div>
 
-        <!-- WHY KALID AKMEL TRUST SECTION -->
+        <!-- ABOUT YOUR COACH SECTION -->
         <div class="mt-12">
             <div class="text-center mb-6">
                 <span class="text-xs font-black text-orange-400 uppercase tracking-widest">ABOUT YOUR COACH</span>
@@ -659,7 +659,7 @@
         }
 
         async function shareResults() {
-            const text = `MY KALID AKMEL TARGETS 🔥\n\nCalories: ${calcData.cals} kcal\nProtein: ${calcData.p}g\nCarbs: ${calcData.c}g\nFats: ${calcData.f}g\n\nCalculate yours:`;
+            const text = `MY KALID AKMEL TARGETS\n\nCalories: ${calcData.cals} kcal\nProtein: ${calcData.p}g\nCarbs: ${calcData.c}g\nFats: ${calcData.f}g\n\nCalculate yours:`;
             
             if (navigator.share) {
                 try {
