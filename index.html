@@ -227,644 +227,547 @@
 <script>
     let currentGoal = 'maintain';
     let isMetric = true;
-    let calcData = { cals: 0, p: 0, c: 0, f: 0 };
- 
+    let calcData = { cals: 0, p: 0, c: 0, f: 0, water: 0 };
+
     function initCalculator() {
         toggleBodyFatImages();
         setGoal('maintain');
     }
- 
+
     function setLanguage(lang) {
         const isAm = lang === 'am';
+
         document.body.classList.toggle('lang-am', isAm);
         document.body.classList.toggle('lang-en', !isAm);
         document.documentElement.lang = isAm ? 'am' : 'en';
+
         document.getElementById('lang-btn-am').className = isAm
             ? "px-3.5 py-1.5 rounded-lg bg-orange-500 text-slate-950 transition font-bold shadow-sm"
             : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition font-medium";
+
         document.getElementById('lang-btn-en').className = !isAm
             ? "px-3.5 py-1.5 rounded-lg bg-orange-500 text-slate-950 transition font-bold shadow-sm"
             : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition font-medium";
     }
- 
+
     function toggleUnits(unit) {
         isMetric = unit === 'metric';
+
         document.getElementById('btn-metric').className = isMetric
             ? "flex-1 py-2 text-xs font-bold rounded-lg bg-orange-500 text-slate-950 transition shadow-sm"
             : "flex-1 py-2 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition";
+
         document.getElementById('btn-imperial').className = !isMetric
             ? "flex-1 py-2 text-xs font-bold rounded-lg bg-orange-500 text-slate-950 transition shadow-sm"
             : "flex-1 py-2 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition";
- 
+
         document.getElementById('weight-metric').classList.toggle('hidden', !isMetric);
         document.getElementById('weight-imperial').classList.toggle('hidden', isMetric);
+
         document.getElementById('height-metric').classList.toggle('hidden', !isMetric);
         document.getElementById('height-imperial').classList.toggle('hidden', isMetric);
         document.getElementById('height-imperial').classList.toggle('flex', !isMetric);
-        document.getElementById('weight-label').textContent = isMetric ? 'Weight (kg)' : 'Weight (lbs)';
-        document.getElementById('height-label').textContent = isMetric ? 'Height (cm)' : 'Height (ft / in)';
-        document.getElementById('weight-label').htmlFor = isMetric ? 'weight-kg' : 'weight-lbs';
-        document.getElementById('height-label').htmlFor = isMetric ? 'height-cm' : 'height-ft';
+
+        document.getElementById('weight-label').textContent =
+            isMetric ? 'Weight (kg)' : 'Weight (lbs)';
+
+        document.getElementById('height-label').textContent =
+            isMetric ? 'Height (cm)' : 'Height (ft / in)';
+
+        document.getElementById('weight-label').htmlFor =
+            isMetric ? 'weight-kg' : 'weight-lbs';
+
+        document.getElementById('height-label').htmlFor =
+            isMetric ? 'height-cm' : 'height-ft';
     }
- 
+
     function toggleBodyFatImages() {
         const gender = document.getElementById('gender').value;
-        document.getElementById('bf-male-section').classList.toggle('hidden', gender !== 'male');
-        document.getElementById('bf-female-section').classList.toggle('hidden', gender !== 'female');
+
+        document.getElementById('bf-male-section')
+            .classList.toggle('hidden', gender !== 'male');
+
+        document.getElementById('bf-female-section')
+            .classList.toggle('hidden', gender !== 'female');
+
         clearBodyFat();
     }
- 
+
     function clearBodyFat() {
-        document.querySelectorAll('input[name="bodyFat"]').forEach(radio => radio.checked = false);
-    }
- 
-    function setGoal(goal) {
-        currentGoal = goal;
-        const base = "goal-btn py-3 px-2 rounded-xl border font-bold transition text-xs sm:text-sm shadow-sm ";
-        const inactive = base + "bg-slate-900 border-slate-700 hover:bg-slate-700 text-slate-300";
-        const active = base + "bg-orange-500 border-orange-400 text-slate-950 shadow-md";
-        ['lose', 'maintain', 'gain'].forEach(item => {
-            document.getElementById(`goal-${item}`).className = item === goal ? active : inactive;
+        document.querySelectorAll('input[name="bodyFat"]').forEach(radio => {
+            radio.checked = false;
         });
     }
- 
+
+    function setGoal(goal) {
+        currentGoal = goal;
+
+        const base =
+            "goal-btn py-3 px-2 rounded-xl border font-bold transition text-xs sm:text-sm shadow-sm ";
+
+        const inactive =
+            base + "bg-slate-900 border-slate-700 hover:bg-slate-700 text-slate-300";
+
+        const active =
+            base + "bg-orange-500 border-orange-400 text-slate-950 shadow-md";
+
+        ['lose', 'maintain', 'gain'].forEach(item => {
+            document.getElementById(`goal-${item}`).className =
+                item === goal ? active : inactive;
+        });
+    }
+
     function showError(messageEn, messageAm) {
         const el = document.getElementById('form-error');
         const isAm = document.body.classList.contains('lang-am');
+
         el.textContent = isAm ? messageAm : messageEn;
         el.classList.remove('hidden');
     }
- 
+
     function calculate() {
-        const age = Number(document.getElementById('age').value);
+        const ageField = document.getElementById('age');
+        const age = Number(ageField.value);
+
         const gender = document.getElementById('gender').value;
         const activity = Number(document.getElementById('activity').value);
         const diet = document.getElementById('diet').value;
-        const weightInput = Number(document.getElementById(isMetric ? 'weight-kg' : 'weight-lbs').value);
-        const heightCm = isMetric
-            ? Number(document.getElementById('height-cm').value)
-            : ((Number(document.getElementById('height-ft').value) * 12) + Number(document.getElementById('height-in').value)) * 2.54;
-        const weightKg = isMetric ? weightInput : weightInput / 2.2046226218;
+
+        const weightField = document.getElementById(
+            isMetric ? 'weight-kg' : 'weight-lbs'
+        );
+
+        const weightInput = Number(weightField.value);
+
+        const weightKg = isMetric
+            ? weightInput
+            : weightInput / 2.2046226218;
+
+        let heightCm;
+
         const errorEl = document.getElementById('form-error');
         errorEl.classList.add('hidden');
- 
-        if (!Number.isFinite(age) || age < 18 || age > 100) {
-            showError('Please enter an age from 18 to 100. This calculator is designed for adults.', 'እባክዎ ከ18 እስከ 100 ዓመት ያለ እድሜ ያስገቡ። ይህ ካልኩሌተር ለአዋቂዎች ነው።');
+
+        // Validate age.
+        if (
+            ageField.value.trim() === '' ||
+            !Number.isFinite(age) ||
+            !Number.isInteger(age) ||
+            age < 18 ||
+            age > 100
+        ) {
+            showError(
+                'Please enter an age from 18 to 100. This calculator is designed for adults.',
+                'እባክዎ ከ18 እስከ 100 ዓመት ያለ እድሜ ያስገቡ። ይህ ካልኩሌተር ለአዋቂዎች ነው።'
+            );
             return;
         }
-        if (!Number.isFinite(weightKg) || weightKg < 25 || weightKg > 350) {
-            showError(isMetric ? 'Enter a weight between 25 and 350 kg.' : 'Enter a weight between about 55 and 770 lb.', isMetric ? 'ከ25 እስከ 350 ኪ.ግ ያለ ክብደት ያስገቡ።' : 'ከ55 እስከ 770 ፓውንድ ያለ ክብደት ያስገቡ።');
+
+        // Validate weight.
+        if (
+            weightField.value.trim() === '' ||
+            !Number.isFinite(weightKg) ||
+            weightKg < 25 ||
+            weightKg > 350
+        ) {
+            showError(
+                isMetric
+                    ? 'Enter a weight between 25 and 350 kg.'
+                    : 'Enter a weight between about 55 and 770 lb.',
+                isMetric
+                    ? 'ከ25 እስከ 350 ኪ.ግ ያለ ክብደት ያስገቡ።'
+                    : 'ከ55 እስከ 770 ፓውንድ ያለ ክብደት ያስገቡ።'
+            );
             return;
         }
-        if (!Number.isFinite(heightCm) || heightCm < 120 || heightCm > 230) {
-            showError(isMetric ? 'Enter a height between 120 and 230 cm.' : 'Enter a valid height (4–7 ft; inches 0–11).', isMetric ? 'ከ120 እስከ 230 ሴ.ሜ ያለ ቁመት ያስገቡ።' : 'ትክክለኛ ቁመት ያስገቡ (4–7 ጫማ፤ ኢንች 0–11)።');
-            return;
-        }
- 
-        const bodyFatInput = document.querySelector('input[name="bodyFat"]:checked');
-        const bodyFatPct = bodyFatInput ? Number(bodyFatInput.value) : null;
- 
-        // Mifflin-St Jeor for most adults; Katch-McArdle if an optional body-fat estimate is selected.
-        let bmr;
-        if (bodyFatPct !== null) {
-            const leanMassKg = weightKg * (1 - bodyFatPct / 100);
-            bmr = 370 + 21.6 * leanMassKg;
+
+        // Validate height.
+        if (isMetric) {
+            const heightField = document.getElementById('height-cm');
+
+            heightCm = Number(heightField.value);
+
+            if (
+                heightField.value.trim() === '' ||
+                !Number.isFinite(heightCm) ||
+                heightCm < 120 ||
+                heightCm > 230
+            ) {
+                showError(
+                    'Enter a height between 120 and 230 cm.',
+                    'ከ120 እስከ 230 ሴ.ሜ ያለ ቁመት ያስገቡ።'
+                );
+                return;
+            }
         } else {
-            bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + (gender === 'male' ? 5 : -161);
+            const ftField = document.getElementById('height-ft');
+            const inField = document.getElementById('height-in');
+
+            const feet = Number(ftField.value);
+            const inches = Number(inField.value);
+
+            if (
+                ftField.value.trim() === '' ||
+                inField.value.trim() === '' ||
+                !Number.isInteger(feet) ||
+                !Number.isInteger(inches) ||
+                feet < 4 ||
+                feet > 7 ||
+                inches < 0 ||
+                inches > 11
+            ) {
+                showError(
+                    'Enter a valid height (4–7 ft; inches 0–11).',
+                    'ትክክለኛ ቁመት ያስገቡ (4–7 ጫማ፤ ኢንች 0–11)።'
+                );
+                return;
+            }
+
+            heightCm = ((feet * 12) + inches) * 2.54;
+
+            if (heightCm < 120 || heightCm > 230) {
+                showError(
+                    'Enter a height between 120 and 230 cm.',
+                    'ከ120 እስከ 230 ሴ.ሜ ያለ ቁመት ያስገቡ።'
+                );
+                return;
+            }
         }
- 
+
+        /*
+         * CALORIE ESTIMATION
+         *
+         * Mifflin–St Jeor equation:
+         * Men:    10 × weight + 6.25 × height − 5 × age + 5
+         * Women:  10 × weight + 6.25 × height − 5 × age − 161
+         *
+         * Weight is in kilograms and height is in centimetres.
+         *
+         * The activity multiplier estimates TDEE. Actual needs can differ.
+         * Visual body-fat estimates are not used to calculate BMR because
+         * a visual guess may introduce additional error.
+         */
+
+        const bmr =
+            (10 * weightKg) +
+            (6.25 * heightCm) -
+            (5 * age) +
+            (gender === 'male' ? 5 : -161);
+
         const tdee = Math.round(bmr * activity);
+
+        // Goal calorie targets are starting estimates, not exact prescriptions.
         let targetCalories = tdee;
-        if (currentGoal === 'lose') targetCalories = Math.round(tdee * 0.85);
-        if (currentGoal === 'gain') targetCalories = Math.round(tdee * 1.08);
- 
-        // Set protein by body weight and goal; distribute remaining energy to carbs/fats.
-        let proteinPerKg = currentGoal === 'lose' ? 2.0 : 1.8;
-        if (diet === 'high-protein') proteinPerKg = currentGoal === 'lose' ? 2.2 : 2.0;
-        if (diet === 'keto') proteinPerKg = 1.8;
+
+        if (currentGoal === 'lose') {
+            targetCalories = Math.round(tdee * 0.85);
+        }
+
+        if (currentGoal === 'gain') {
+            targetCalories = Math.round(tdee * 1.05);
+        }
+
+        /*
+         * MACRONUTRIENT ESTIMATES
+         *
+         * Protein is estimated using body weight and goal.
+         * Fat is assigned a reasonable starting share of energy.
+         * Carbohydrates receive the remaining available energy.
+         *
+         * These distributions are estimates, not individually prescribed
+         * medical or sports-nutrition plans.
+         */
+
+        let proteinPerKg;
+
+        if (diet === 'high-protein') {
+            proteinPerKg = currentGoal === 'lose' ? 2.2 : 2.0;
+        } else if (diet === 'keto') {
+            proteinPerKg = 1.8;
+        } else {
+            proteinPerKg = currentGoal === 'lose' ? 2.0 : 1.6;
+        }
+
         const proteinGrams = Math.round(weightKg * proteinPerKg);
         const proteinCalories = proteinGrams * 4;
-        const remainingCalories = Math.max(0, targetCalories - proteinCalories);
- 
-        let carbShare, fatShare;
-        if (diet === 'low-carb') {
-            carbShare = 0.25; fatShare = 0.75;
-        } else if (diet === 'keto') {
-            carbShare = 0.08; fatShare = 0.92;
-        } else if (diet === 'high-protein') {
-            carbShare = 0.55; fatShare = 0.45;
-        } else {
-            carbShare = 0.55; fatShare = 0.45;
-        }
- 
-        let carbsGrams = Math.round((remainingCalories * carbShare) / 4);
-        let fatGrams = Math.round((remainingCalories * fatShare) / 9);
- 
-        // Low-carb/keto are approximate macro styles, not a medical prescription.
-        // Keep carbohydrate intake very low for keto; protein calories are accounted for separately.
+
+        // Estimated minimum fat target.
+        const minimumFatGrams = Math.ceil(
+            Math.max(
+                weightKg * 0.6,
+                (targetCalories * 0.20) / 9
+            )
+        );
+
+        let carbsGrams = 0;
+        let fatGrams = 0;
+
         if (diet === 'keto') {
-            carbsGrams = Math.min( Math.round((targetCalories * 0.08) / 4), 50);
-            const caloriesAfterProteinAndCarbs = Math.max(0, targetCalories - proteinCalories - carbsGrams * 4);
-            fatGrams = Math.round(caloriesAfterProteinAndCarbs / 9);
+            // Keep estimated carbohydrate intake at or below 50 g/day.
+            carbsGrams = Math.min(
+                50,
+                Math.max(
+                    20,
+                    Math.round((targetCalories * 0.05) / 4)
+                )
+            );
+
+            // Allocate remaining calories to fat.
+            const caloriesForFat =
+                targetCalories -
+                proteinCalories -
+                (carbsGrams * 4);
+
+            fatGrams = Math.max(
+                0,
+                Math.floor(caloriesForFat / 9)
+            );
+
+        } else if (diet === 'low-carb') {
+            // Aim for approximately 25% of calories from carbohydrates.
+            const desiredCarbs = Math.round(
+                (targetCalories * 0.25) / 4
+            );
+
+            // Ensure protein, carbs and minimum fat do not exceed calories.
+            const availableCarbCalories = Math.max(
+                0,
+                targetCalories -
+                proteinCalories -
+                (minimumFatGrams * 9)
+            );
+
+            carbsGrams = Math.max(
+                0,
+                Math.min(
+                    desiredCarbs,
+                    Math.floor(availableCarbCalories / 4)
+                )
+            );
+
+            const caloriesForFat =
+                targetCalories -
+                proteinCalories -
+                (carbsGrams * 4);
+
+            fatGrams = Math.max(
+                0,
+                Math.floor(caloriesForFat / 9)
+            );
+
+        } else {
+            // Balanced and high-protein styles:
+            // approximately 25% of target calories from fat.
+            fatGrams = Math.max(
+                minimumFatGrams,
+                Math.round((targetCalories * 0.25) / 9)
+            );
+
+            const caloriesForCarbs =
+                targetCalories -
+                proteinCalories -
+                (fatGrams * 9);
+
+            carbsGrams = Math.max(
+                0,
+                Math.floor(caloriesForCarbs / 4)
+            );
         }
- 
-        // A simple fluid-intake estimate, not a universal water requirement.
-        const activityExtra = activity >= 1.7 ? 0.75 : activity >= 1.5 ? 0.5 : activity >= 1.3 ? 0.25 : 0;
-        const waterLiters = Math.max(1, weightKg * 0.03 + activityExtra);
- 
-        calcData = { cals: targetCalories, p: proteinGrams, c: carbsGrams, f: fatGrams, water: waterLiters };
- 
-        document.getElementById('tdee-val').textContent = tdee.toLocaleString() + ' kcal';
-        document.getElementById('target-calories').textContent = targetCalories.toLocaleString() + ' kcal';
-        document.getElementById('protein-val').textContent = proteinGrams + 'g';
-        document.getElementById('carbs-val').textContent = carbsGrams + 'g';
-        document.getElementById('fats-val').textContent = fatGrams + 'g';
-        document.getElementById('water-val').textContent = waterLiters.toFixed(1) + ' L';
- 
-        const macroCalories = [proteinGrams * 4, carbsGrams * 4, fatGrams * 9];
-        const totalMacroCalories = macroCalories.reduce((a, b) => a + b, 0) || 1;
+
+        /*
+         * Safety check for rounding and unusual input combinations.
+         * Keep the displayed macro calories from exceeding the target.
+         */
+
+        let calculatedMacroCalories =
+            (proteinGrams * 4) +
+            (carbsGrams * 4) +
+            (fatGrams * 9);
+
+        if (calculatedMacroCalories > targetCalories) {
+            if (diet === 'keto' || diet === 'low-carb') {
+                fatGrams = Math.max(
+                    0,
+                    Math.floor(
+                        (
+                            targetCalories -
+                            proteinCalories -
+                            (carbsGrams * 4)
+                        ) / 9
+                    )
+                );
+            } else {
+                carbsGrams = Math.max(
+                    0,
+                    Math.floor(
+                        (
+                            targetCalories -
+                            proteinCalories -
+                            (fatGrams * 9)
+                        ) / 4
+                    )
+                );
+            }
+        }
+
+        /*
+         * WATER ESTIMATE
+         *
+         * This is a rough guide only. Hydration requirements vary with
+         * temperature, sweating, exercise, diet and individual health.
+         */
+
+        const activityExtra =
+            activity >= 1.7 ? 0.75 :
+            activity >= 1.5 ? 0.5 :
+            activity >= 1.3 ? 0.25 : 0;
+
+        const waterLiters = Math.max(
+            1,
+            (weightKg * 0.03) + activityExtra
+        );
+
+        // Save results for the meal split and share features.
+        calcData = {
+            cals: targetCalories,
+            p: proteinGrams,
+            c: carbsGrams,
+            f: fatGrams,
+            water: waterLiters
+        };
+
+        // Display calorie and macro results.
+        document.getElementById('tdee-val').textContent =
+            tdee.toLocaleString() + ' kcal';
+
+        document.getElementById('target-calories').textContent =
+            targetCalories.toLocaleString() + ' kcal';
+
+        document.getElementById('protein-val').textContent =
+            proteinGrams + 'g';
+
+        document.getElementById('carbs-val').textContent =
+            carbsGrams + 'g';
+
+        document.getElementById('fats-val').textContent =
+            fatGrams + 'g';
+
+        document.getElementById('water-val').textContent =
+            waterLiters.toFixed(1) + ' L';
+
+        // Calculate percentages for the macro bar.
+        const macroCalories = [
+            proteinGrams * 4,
+            carbsGrams * 4,
+            fatGrams * 9
+        ];
+
+        const totalMacroCalories =
+            macroCalories.reduce((total, value) => total + value, 0) || 1;
+
         const pPct = macroCalories[0] / totalMacroCalories;
         const cPct = macroCalories[1] / totalMacroCalories;
         const fPct = macroCalories[2] / totalMacroCalories;
- 
-        document.getElementById('pct-p').textContent = `(${Math.round(pPct * 100)}%)`;
-        document.getElementById('pct-c').textContent = `(${Math.round(cPct * 100)}%)`;
-        document.getElementById('pct-f').textContent = `(${Math.round(fPct * 100)}%)`;
-        document.getElementById('bar-p').style.width = (pPct * 100) + '%';
-        document.getElementById('bar-c').style.width = (cPct * 100) + '%';
-        document.getElementById('bar-f').style.width = (fPct * 100) + '%';
- 
+
+        document.getElementById('pct-p').textContent =
+            `(${Math.round(pPct * 100)}%)`;
+
+        document.getElementById('pct-c').textContent =
+            `(${Math.round(cPct * 100)}%)`;
+
+        document.getElementById('pct-f').textContent =
+            `(${Math.round(fPct * 100)}%)`;
+
+        document.getElementById('bar-p').style.width =
+            (pPct * 100) + '%';
+
+        document.getElementById('bar-c').style.width =
+            (cPct * 100) + '%';
+
+        document.getElementById('bar-f').style.width =
+            (fPct * 100) + '%';
+
         updateMealSplit();
+
         document.getElementById('results').classList.remove('hidden');
-        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
- 
-    function updateMealSplit() {
-        if (!calcData.cals) return;
-        const meals = Number(document.getElementById('meals-per-day').value) || 3;
-        document.getElementById('meal-cal').textContent = Math.round(calcData.cals / meals).toLocaleString();
-        document.getElementById('meal-p').textContent = Math.round(calcData.p / meals) + 'g';
-        document.getElementById('meal-c').textContent = Math.round(calcData.c / meals) + 'g';
-        document.getElementById('meal-f').textContent = Math.round(calcData.f / meals) + 'g';
-    }
- 
-    async function shareResults() {
-        if (!calcData.cals) {
-            const isAm = document.body.classList.contains('lang-am');
-            alert(isAm ? 'ከመጀመሪያ ውጤትዎን ያስሉ።' : 'Please calculate your targets first.');
-            return;
-        }
-        const summary = `MY KALID AKMEL TARGETS\\n\\nCalories: ${calcData.cals} kcal\\nProtein: ${calcData.p} g\\nCarbs: ${calcData.c} g\\nFats: ${calcData.f} g\\nWater guide: ${calcData.water.toFixed(1)} L`;
-        if (navigator.share) {
-            try {
-                await navigator.share({ title: 'My Kalid Akmel Fitness Targets', text: summary, url: window.location.href });
-                return;
-            } catch (error) {
-                if (error && error.name === 'AbortError') return;
-            }
-        }
-        try {
-            await navigator.clipboard.writeText(summary + '\\n\\nCalculate yours: ' + window.location.href);
-            alert(document.body.classList.contains('lang-am') ? 'ውጤቶችዎ ተቀድተዋል።' : 'Results copied to clipboard.');
-        } catch (error) {
-            window.prompt('Copy your results:', summary + '\\n\\n' + window.location.href);
-        }
-    }
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free calorie, macronutrient, and hydration estimates from Kalid Akmel Nutrition.">
-    <title>Kalid Akmel | Nutrition & Fitness Calculator</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .macro-bar { transition: width 0.8s ease-in-out; }
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        body.lang-en .am-only { display: none !important; }
-        body.lang-am .en-only { display: none !important; }
-        input, select, button { font: inherit; }
-        .error-message { color: #fca5a5; font-size: .8rem; margin-top: .75rem; }
-    </style>
-</head>
-<body class="lang-en text-slate-50 font-sans min-h-screen flex flex-col items-center justify-start p-4 relative bg-[#0B132B] selection:bg-orange-500 selection:text-slate-950" onload="initCalculator()">
-    <div class="relative z-10 max-w-2xl w-full my-4">
-        <div class="flex justify-between items-center mb-6 bg-slate-900/80 p-2.5 rounded-2xl border border-slate-700/80 backdrop-blur-md">
-            <span class="text-xs font-black tracking-widest text-orange-400 uppercase px-2">KALID AKMEL</span>
-            <div class="bg-slate-800 p-1 rounded-xl border border-slate-700 flex text-xs font-bold">
-                <button id="lang-btn-en" type="button" onclick="setLanguage('en')" class="px-3.5 py-1.5 rounded-lg bg-orange-500 text-slate-950 transition font-bold shadow-sm">English</button>
-                <button id="lang-btn-am" type="button" onclick="setLanguage('am')" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition font-medium">አማርኛ</button>
-            </div>
-        </div>
- 
-        <div class="bg-slate-800/90 backdrop-blur-md rounded-2xl border border-slate-700 p-6 mb-6 shadow-xl relative overflow-hidden">
-            <div class="flex flex-col sm:flex-row items-center gap-5">
-                <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-lg shrink-0 bg-slate-900 flex items-center justify-center text-center">
-                    <img src="profile.jpg" alt="Kalid Akmel" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/150/0f172a/f97316?text=Kalid+Akmel';">
-                </div>
-                <div class="text-center sm:text-left">
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold mb-2">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 011.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
-                        <span class="en-only">Coach & Athlete</span><span class="am-only">አሰልጣኝ እና አትሌት</span>
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">KALID AKMEL <span class="text-orange-500">NUTRITION</span></h1>
-                    <p class="text-sm font-semibold text-slate-300 mt-1">
-                        <span class="en-only">Know your calories. Build your plan. Transform your body.</span>
-                        <span class="am-only">ካሎሪዎን ይወቁ። እቅድዎን ይገንቡ። ሰውነትዎን ይቀይሩ።</span>
-                    </p>
-                    <p class="text-xs text-slate-400 mt-2 font-medium">
-                        <span class="en-only">Estimated calorie and macro targets based on your body and goals.</span>
-                        <span class="am-only">በሰውነትዎ፣ በእንቅስቃሴዎ እና በግብዎ ላይ የተመሰረተ ግምታዊ የካሎሪ እና ማክሮ ስሌት።</span>
-                    </p>
-                </div>
-            </div>
-        </div>
- 
-        <div class="bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 p-5 md:p-8">
-            <div class="flex justify-center mb-6 bg-slate-900 rounded-xl p-1 border border-slate-700 max-w-xs mx-auto">
-                <button id="btn-metric" type="button" onclick="toggleUnits('metric')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-orange-500 text-slate-950 transition shadow-sm">Metric (kg/cm)</button>
-                <button id="btn-imperial" type="button" onclick="toggleUnits('imperial')" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition">Imperial (lbs/ft)</button>
-            </div>
- 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                    <label for="gender" class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-300"><span class="en-only">Gender</span><span class="am-only">ፆታ</span></label>
-                    <select id="gender" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500">
-                        <option value="male">Male (ወንድ)</option><option value="female">Female (ሴት)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="age" class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-300"><span class="en-only">Age</span><span class="am-only">እድሜ</span></label>
-                    <input type="number" id="age" min="18" max="100" step="1" value="25" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500">
-                </div>
-                <div>
-                    <label id="weight-label" for="weight-kg" class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-300">Weight (kg)</label>
-                    <div id="weight-metric"><input type="number" id="weight-kg" min="25" max="350" step="0.1" value="70" placeholder="kg" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500"></div>
-                    <div id="weight-imperial" class="hidden"><input type="number" id="weight-lbs" min="55" max="770" step="0.1" placeholder="lbs" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500"></div>
-                </div>
-                <div>
-                    <label id="height-label" for="height-cm" class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-300">Height (cm)</label>
-                    <div id="height-metric"><input type="number" id="height-cm" min="120" max="230" step="0.1" value="175" placeholder="cm" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500"></div>
-                    <div id="height-imperial" class="hidden flex gap-2"><input type="number" id="height-ft" min="4" max="7" step="1" placeholder="ft" class="w-1/2 bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500"><input type="number" id="height-in" min="0" max="11" step="1" placeholder="in" class="w-1/2 bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500"></div>
-                </div>
- 
-                <div class="md:col-span-2">
-                    <label for="activity" class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-300"><span class="en-only">Activity Level</span><span class="am-only">የእንቅስቃሴ ደረጃ</span></label>
-                    <select id="activity" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500">
-                        <option value="1.2" class="en-only">Sedentary (desk job, little exercise)</option><option value="1.2" class="am-only">ብዙ ጊዜ ተቀምጦ የሚሰራ፣ ትንሽ እንቅስቃሴ</option>
-                        <option value="1.375" class="en-only">Lightly active (light exercise 1–3 days/week)</option><option value="1.375" class="am-only">ቀላል እንቅስቃሴ (በሳምንት 1–3 ቀን)</option>
-                        <option value="1.55" selected class="en-only">Moderately active (exercise 3–5 days/week)</option><option value="1.55" class="am-only">መካከለኛ እንቅስቃሴ (በሳምንት 3–5 ቀን)</option>
-                        <option value="1.725" class="en-only">Very active (hard exercise 6–7 days/week)</option><option value="1.725" class="am-only">ከፍተኛ እንቅስቃሴ (በሳምንት 6–7 ቀን)</option>
-                    </select>
-                </div>
- 
-                <div class="md:col-span-2 bg-slate-900/80 p-4 rounded-xl border border-slate-700">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-orange-400"><span class="en-only">Estimated Body Fat % (Optional)</span><span class="am-only">የሰውነት ስብ % (አማራጭ)</span></label>
-                    <p class="text-xs text-slate-400 font-medium mb-3 mt-1"><span class="en-only">Tap the closest image to estimate your body-fat percentage. This is optional and visual estimates can be inaccurate.</span><span class="am-only">ከሰውነትዎ ጋር የሚቀራረበውን ምስል ይምረጡ። ይህ አማራጭ ነው፤ በምስል የሚደረግ ግምት ትክክለኛ ላይሆን ይችላል።</span></p>
-                    <div id="bf-male-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md">
-                        <img src="mealBodyFat.png" alt="Male body fat visual guide" class="w-full h-auto block select-none">
-                        <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
-                            <script>
-                                [4.5, 6.5, 9, 11.5, 14, 17.5, 22, 27.5, 37.5].forEach(val => {
-                                    document.write(`<label class="relative cursor-pointer rounded-lg overflow-hidden group"><input type="radio" name="bodyFat" value="${val}" class="peer hidden"><div class="absolute inset-0 border-4 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/40 rounded-lg transition-all flex items-center justify-center backdrop-blur-[1px] opacity-0 peer-checked:opacity-100 group-hover:bg-white/10 group-hover:opacity-100"><svg class="w-8 h-8 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div></label>`);
-                                });
-                            </script>
-                        </div>
-                    </div>
-                    <div id="bf-female-section" class="relative rounded-xl overflow-hidden border border-slate-700 shadow-md hidden">
-                        <img src="femalebodyfat.png" alt="Female body fat visual guide" class="w-full h-auto block select-none">
-                        <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 p-[6%] gap-[3%]">
-                            <script>
-                                [13, 16, 19, 22, 25, 28, 32.5, 38, 50].forEach(val => {
-                                    document.write(`<label class="relative cursor-pointer rounded-lg overflow-hidden group"><input type="radio" name="bodyFat" value="${val}" class="peer hidden"><div class="absolute inset-0 border-4 border-transparent peer-checked:border-orange-500 peer-checked:bg-orange-500/40 rounded-lg transition-all flex items-center justify-center backdrop-blur-[1px] opacity-0 peer-checked:opacity-100 group-hover:bg-white/10 group-hover:opacity-100"><svg class="w-8 h-8 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div></label>`);
-                                });
-                            </script>
-                        </div>
-                    </div>
-                    <div class="mt-2 text-right"><button type="button" onclick="clearBodyFat()" class="text-xs text-orange-400 hover:text-orange-300 font-bold underline"><span class="en-only">Clear selection</span><span class="am-only">ምርጫውን አጽዳ</span></button></div>
-                </div>
- 
-                <div class="md:col-span-2">
-                    <label for="diet" class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-300"><span class="en-only">Diet Preference</span><span class="am-only">የአመጋገብ ምርጫ</span></label>
-                    <select id="diet" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm font-medium focus:outline-none focus:border-orange-500">
-                        <option value="balanced"><span>Balanced</span> (Standard distribution)</option>
-                        <option value="high-protein">High protein (muscle building / fat loss)</option>
-                        <option value="low-carb">Low carb</option>
-                        <option value="keto">Keto (very low carb)</option>
-                    </select>
-                    <p class="text-xs text-slate-400 mt-2"><span class="en-only">Diet styles change macro distribution, not the quality of the calorie estimate.</span><span class="am-only">የአመጋገብ አይነቱ የማክሮ ክፍፍልን ይቀይራል፤ የካሎሪ ግምቱን ግን አይቀይርም።</span></p>
-                </div>
- 
-                <div class="md:col-span-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-300"><span class="en-only">Your Fitness Goal</span><span class="am-only">የአካል ብቃት ግብዎ</span></label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button type="button" onclick="setGoal('lose')" id="goal-lose" class="goal-btn py-3 px-2 rounded-xl bg-slate-900 border border-slate-700 font-bold hover:bg-slate-700 transition text-xs sm:text-sm text-slate-300 shadow-sm"><span class="en-only">Lose Fat</span><span class="am-only">ስብ መቀነስ</span></button>
-                        <button type="button" onclick="setGoal('maintain')" id="goal-maintain" class="goal-btn py-3 px-2 rounded-xl bg-orange-500 border border-orange-400 font-black text-slate-950 transition text-xs sm:text-sm shadow-md"><span class="en-only">Maintain</span><span class="am-only">ክብደት መጠበቅ</span></button>
-                        <button type="button" onclick="setGoal('gain')" id="goal-gain" class="goal-btn py-3 px-2 rounded-xl bg-slate-900 border border-slate-700 font-bold hover:bg-slate-700 transition text-xs sm:text-sm text-slate-300 shadow-sm"><span class="en-only">Gain Muscle</span><span class="am-only">ጡንቻ መገንባት</span></button>
-                    </div>
-                </div>
-            </div>
- 
-            <p id="form-error" class="error-message hidden" role="alert"></p>
-            <button type="button" onclick="calculate()" class="w-full mt-8 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-slate-950 font-black text-base md:text-lg py-4 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] transition transform hover:-translate-y-0.5 cursor-pointer uppercase tracking-wider flex items-center justify-center gap-2">
-                <span class="en-only">CALCULATE MY TARGETS</span><span class="am-only">ግቦቼን አስላ</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-            </button>
- 
-            <div id="results" class="hidden mt-10 pt-8 border-t border-slate-700">
-                <div class="text-center mb-8">
-                    <span class="text-xs font-black uppercase tracking-widest text-orange-400 bg-orange-500/10 py-1 px-3 rounded-full border border-orange-500/20"><span class="en-only">YOUR DAILY TARGET</span><span class="am-only">የቀን ግብዎ</span></span>
-                    <div id="target-calories" class="text-5xl md:text-6xl font-black text-white mt-4 tracking-tight drop-shadow-md">0 kcal</div>
-                    <p class="text-xs text-slate-400 mt-2 font-medium"><span class="en-only">Estimated maintenance (TDEE):</span><span class="am-only">ግምታዊ የጥገና ካሎሪ (TDEE):</span> <span id="tdee-val" class="font-bold text-slate-200">0 kcal</span></p>
-                </div>
- 
-                <div class="bg-slate-900 rounded-xl border border-slate-700 p-4 md:p-6 shadow-lg mb-6">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4 text-center"><span class="en-only">Daily macros breakdown</span><span class="am-only">የቀን ማክሮ ክፍፍል</span></h3>
-                    <div class="w-full flex h-3.5 rounded-full overflow-hidden bg-slate-800 mb-4 shadow-inner">
-                        <div id="bar-p" class="bg-amber-400 h-full macro-bar" style="width:30%"></div><div id="bar-c" class="bg-cyan-400 h-full macro-bar" style="width:40%"></div><div id="bar-f" class="bg-rose-400 h-full macro-bar" style="width:30%"></div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2 md:gap-4 text-center">
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700"><div class="text-[11px] font-black text-amber-400 uppercase tracking-wide"><span class="en-only">Protein</span><span class="am-only">ፕሮቲን</span> <span id="pct-p" class="hidden md:inline ml-1 text-slate-400 font-bold"></span></div><div id="protein-val" class="text-xl md:text-2xl font-black text-white mt-1">0g</div></div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700"><div class="text-[11px] font-black text-cyan-400 uppercase tracking-wide"><span class="en-only">Carbs</span><span class="am-only">ካርቦሃይድሬት</span> <span id="pct-c" class="hidden md:inline ml-1 text-slate-400 font-bold"></span></div><div id="carbs-val" class="text-xl md:text-2xl font-black text-white mt-1">0g</div></div>
-                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700"><div class="text-[11px] font-black text-rose-400 uppercase tracking-wide"><span class="en-only">Fats</span><span class="am-only">ስብ</span> <span id="pct-f" class="hidden md:inline ml-1 text-slate-400 font-bold"></span></div><div id="fats-val" class="text-xl md:text-2xl font-black text-white mt-1">0g</div></div>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-3 leading-relaxed"><span class="en-only">Protein is set using body weight and goal where possible; the remaining calories are allocated to carbs and fats according to the selected style. These are estimates, not exact prescriptions.</span><span class="am-only">ፕሮቲን በተቻለ መጠን በክብደትዎና በግብዎ ይመደባል፤ ቀሪው ካሎሪ እንደ አመጋገብ ምርጫዎ ለካርቦሃይድሬትና ለስብ ይከፈላል። ይህ ግምት ነው፣ ትክክለኛ የሕክምና መመሪያ አይደለም።</span></p>
-                </div>
- 
-                <div class="bg-slate-900 rounded-xl border border-slate-700 p-4 md:p-6 shadow-lg mb-6">
-                    <div class="flex items-center justify-between mb-4 flex-wrap gap-2"><h3 class="text-xs font-bold uppercase tracking-wider text-slate-300"><span class="en-only">Per-meal breakdown</span><span class="am-only">በእያንዳንዱ ምግብ</span></h3>
-                        <select id="meals-per-day" onchange="updateMealSplit()" class="bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs font-bold focus:outline-none focus:border-orange-500"><option value="3">3 Meals / Day</option><option value="4">4 Meals / Day</option><option value="5">5 Meals / Day</option><option value="6">6 Meals / Day</option></select>
-                    </div>
-                    <div class="grid grid-cols-4 gap-2 text-center text-xs bg-slate-800/80 p-3 rounded-lg border border-slate-700">
-                        <div><div class="text-slate-400 text-[10px] font-bold uppercase mb-1">Calories</div><div id="meal-cal" class="font-black text-orange-400 text-base">0</div></div>
-                        <div><div class="text-slate-400 text-[10px] font-bold uppercase mb-1">Protein</div><div id="meal-p" class="font-black text-amber-400 text-base">0g</div></div>
-                        <div><div class="text-slate-400 text-[10px] font-bold uppercase mb-1">Carbs</div><div id="meal-c" class="font-black text-cyan-400 text-base">0g</div></div>
-                        <div><div class="text-slate-400 text-[10px] font-bold uppercase mb-1">Fats</div><div id="meal-f" class="font-black text-rose-400 text-base">0g</div></div>
-                    </div>
-                </div>
- 
-                <div class="bg-blue-950/40 p-4 rounded-xl border border-blue-500/30 text-center shadow-lg mb-6">
-                    <span class="text-xs text-blue-400 uppercase font-black tracking-wider"><span class="en-only">Estimated daily water guide</span><span class="am-only">የግምታዊ የቀን ውሃ መጠን</span></span>
-                    <div id="water-val" class="text-3xl font-black text-white mt-1">0 L</div>
-                    <p class="text-xs text-slate-400 mt-2"><span class="en-only">A rough guide only. Needs vary with heat, sweating, activity, food and health.</span><span class="am-only">ይህ ግምታዊ መመሪያ ብቻ ነው። ፍላጎት በሙቀት፣ በላብ፣ በእንቅስቃሴ፣ በምግብና በጤና ይለያያል።</span></p>
-                </div>
- 
-                <details class="group bg-slate-900 rounded-xl border border-slate-700 shadow-lg mb-6 overflow-hidden">
-                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-4 text-xs uppercase tracking-wider text-slate-200 hover:bg-slate-800/50 transition"><span class="en-only">Recommended foods</span><span class="am-only">የሚመከሩ ምግቦች</span><span class="transition group-open:rotate-180">⌄</span></summary>
-                    <div class="p-4 border-t border-slate-800 text-xs text-slate-300 bg-slate-800/40 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div><h4 class="font-bold text-amber-400 mb-2 uppercase"><span class="en-only">Proteins</span><span class="am-only">ፕሮቲኖች</span></h4><ul class="list-disc pl-4 space-y-1 text-slate-300"><li>Chicken breast / lean beef</li><li>Eggs & egg whites</li><li>Lentils (ምስር) & chickpeas (ሽምብራ)</li><li>Yogurt / cottage cheese</li></ul></div>
-                        <div><h4 class="font-bold text-cyan-400 mb-2 uppercase"><span class="en-only">Carbohydrates</span><span class="am-only">ካርቦሃይድሬቶች</span></h4><ul class="list-disc pl-4 space-y-1 text-slate-300"><li>Oats & rice</li><li>Potatoes (ድንች)</li><li>Teff injera (ጤፍ እንጀራ)</li><li>Bananas & whole grains</li></ul></div>
-                        <div><h4 class="font-bold text-rose-400 mb-2 uppercase"><span class="en-only">Healthy fats</span><span class="am-only">ጤናማ ስቦች</span></h4><ul class="list-disc pl-4 space-y-1 text-slate-300"><li>Avocado (አቮካዶ)</li><li>Peanut butter (የኦቾሎኒ ቅቤ)</li><li>Olive oil (የወይራ ዘይት)</li><li>Nuts & seeds</li></ul></div>
-                    </div>
-                </details>
- 
-                <blockquote class="p-4 bg-slate-900 rounded-xl border-l-4 border-orange-500 text-xs text-slate-300 italic font-medium shadow-md"><span class="en-only">“These are estimated starting targets. Track your progress and adjust your intake based on your results.”</span><span class="am-only">“እነዚህ ግምታዊ መነሻ ግቦች ናቸው። እድገትዎን ይከታተሉ እና እንደ ውጤትዎ ማስተካከያ ያድርጉ።”</span></blockquote>
- 
-                <div class="mt-12 pt-8 border-t border-slate-700">
-                    <div class="text-center mb-6"><span class="text-xs font-black uppercase tracking-widest text-orange-400"><span class="en-only">CLIENT RESULTS</span><span class="am-only">የደንበኛ ውጤቶች</span></span><h3 class="text-xl font-black text-white mt-1"><span class="en-only">Real Clients. Real Transformations.</span><span class="am-only">እውነተኛ ደንበኞች። እውነተኛ ለውጦች።</span></h3></div>
-                    <div class="flex flex-col items-center mb-8">
-                        <div class="max-w-md w-full bg-slate-900 rounded-xl overflow-hidden border border-slate-700 shadow-md"><img src="transformation1.png" alt="Client transformation" class="w-full h-56 sm:h-64 object-cover" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400/0f172a/94a3b8?text=Transformation';"></div>
-                        <div class="mt-3 bg-slate-900/90 border border-orange-500/30 px-4 py-2 rounded-xl text-center shadow-md"><span class="text-xs font-black uppercase tracking-wider text-orange-400"><span class="en-only">⚡ 30-day client transformation</span><span class="am-only">⚡ የ30 ቀን የደንበኛ ለውጥ</span></span></div>
-                    </div>
-                    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-orange-950/40 p-6 md:p-8 rounded-2xl border-2 border-orange-500 text-center shadow-xl">
-                        <h3 class="text-lg font-black text-orange-400 uppercase tracking-tight mb-2"><span class="en-only">WANT ME TO BUILD YOUR FULL PLAN?</span><span class="am-only">ለእርስዎ የሚሆን ሙሉ እቅድ ይፈልጋሉ?</span></h3>
-                        <p class="text-sm font-semibold text-slate-200 mb-4 leading-relaxed"><span class="en-only">Let's turn these numbers into a customized meal plan, a workout routine built around your goals, and ongoing support to help you make progress. Apply to work 1-on-1 with Kalid.</span><span class="am-only">እነዚህን ቁጥሮች ወደ ግቦችዎ የተስማማ የምግብ እቅድ፣ የስልጠና ፕሮግራም እና በሂደትዎ ውስጥ የሚረዳዎት ቀጣይነት ያለው ድጋፍ እንቀይራቸው። ከካሊድ ጋር በግል ለመስራት አሁኑኑ ያመልክቱ!</span></p>
-                        <div class="flex justify-center"><a href="https://kalidofit.github.io/Application-/#apply" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-slate-950 font-black text-sm md:text-base py-4 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 uppercase tracking-wider flex items-center justify-center gap-2"><span class="en-only">APPLY FOR 1-ON-1 COACHING</span><span class="am-only">የግል ስልጠና ለመጀመር</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></a></div>
-                    </div>
-                    <div class="mt-4"><button type="button" onclick="shareResults()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 px-4 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 text-xs uppercase tracking-wider cursor-pointer shadow-md"><span class="en-only">Share / Save My Results</span><span class="am-only">ውጤቴን አጋራ / አስቀምጥ</span></button></div>
-                </div>
-            </div>
-        </div>
- 
-        <div class="mt-12">
-            <div class="text-center mb-6"><span class="text-xs font-black text-orange-400 uppercase tracking-widest"><span class="en-only">ABOUT YOUR COACH</span><span class="am-only">ስለ አሰልጣኝዎ</span></span><h3 class="text-xl font-black text-white mt-1"><span class="en-only">Why People Trust Kalid Akmel</span><span class="am-only">ሰዎች ለምን ካሊድ አክመልን ያምናሉ?</span></h3></div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-slate-800/80 p-5 rounded-xl border border-slate-700 shadow-md"><div class="font-extrabold text-sm text-slate-100">✓ <span class="en-only">Physique competitor</span><span class="am-only">የፊዚክ ውድድር ተወዳዳሪ</span></div><p class="text-xs text-slate-400 mt-2 leading-relaxed"><span class="en-only">Real competitive bodybuilding experience.</span><span class="am-only">በሰውነት ግንባታ ውድድር የተገኘ ተሞክሮ።</span></p></div>
-                <div class="bg-slate-800/80 p-5 rounded-xl border border-slate-700 shadow-md"><div class="font-extrabold text-sm text-slate-100">✓ <span class="en-only">Certified trainer</span><span class="am-only">የተረጋገጠ አሰልጣኝ</span></div><p class="text-xs text-slate-400 mt-2 leading-relaxed"><span class="en-only">Knowledge supported by fitness education.</span><span class="am-only">በፊትነስ ትምህርት የተደገፈ እውቀት።</span></p></div>
-                <div class="bg-slate-800/80 p-5 rounded-xl border border-slate-700 shadow-md"><div class="font-extrabold text-sm text-slate-100">✓ <span class="en-only">Online coaching</span><span class="am-only">የኦንላይን አሰልጣኝነት</span></div><p class="text-xs text-slate-400 mt-2 leading-relaxed"><span class="en-only">Tailored training and nutrition support for your goals.</span><span class="am-only">ለግቦችዎ የተስማማ የስልጠናና የአመጋገብ ድጋፍ።</span></p></div>
-            </div>
-        </div>
- 
-        <div class="mt-12 text-center bg-slate-800/80 p-6 rounded-2xl border border-slate-700 shadow-lg">
-            <h4 class="text-xs font-black text-orange-400 uppercase tracking-widest mb-4"><span class="en-only">CONNECT WITH KALID</span><span class="am-only">ከካሊድ ጋር ይገናኙ</span></h4>
-            <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://www.instagram.com/kalid._.akmel?igsh=MW5hbXlnazNocWdhOQ==" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold flex items-center gap-2 transition">Instagram</a>
-                <a href="https://tiktok.com/@kalidofit" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold flex items-center gap-2 transition">TikTok</a>
-            </div>
-        </div>
-        <footer class="mt-8 text-center text-slate-500 text-xs font-medium"><p>© 2026 Kalid Akmel. All rights reserved.</p></footer>
-    </div>
- 
-<script>
-    let currentGoal = 'maintain';
-    let isMetric = true;
-    let calcData = { cals: 0, p: 0, c: 0, f: 0 };
- 
-    function initCalculator() {
-        toggleBodyFatImages();
-        setGoal('maintain');
-    }
- 
-    function setLanguage(lang) {
-        const isAm = lang === 'am';
-        document.body.classList.toggle('lang-am', isAm);
-        document.body.classList.toggle('lang-en', !isAm);
-        document.documentElement.lang = isAm ? 'am' : 'en';
-        document.getElementById('lang-btn-am').className = isAm
-            ? "px-3.5 py-1.5 rounded-lg bg-orange-500 text-slate-950 transition font-bold shadow-sm"
-            : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition font-medium";
-        document.getElementById('lang-btn-en').className = !isAm
-            ? "px-3.5 py-1.5 rounded-lg bg-orange-500 text-slate-950 transition font-bold shadow-sm"
-            : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition font-medium";
-    }
- 
-    function toggleUnits(unit) {
-        isMetric = unit === 'metric';
-        document.getElementById('btn-metric').className = isMetric
-            ? "flex-1 py-2 text-xs font-bold rounded-lg bg-orange-500 text-slate-950 transition shadow-sm"
-            : "flex-1 py-2 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition";
-        document.getElementById('btn-imperial').className = !isMetric
-            ? "flex-1 py-2 text-xs font-bold rounded-lg bg-orange-500 text-slate-950 transition shadow-sm"
-            : "flex-1 py-2 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition";
- 
-        document.getElementById('weight-metric').classList.toggle('hidden', !isMetric);
-        document.getElementById('weight-imperial').classList.toggle('hidden', isMetric);
-        document.getElementById('height-metric').classList.toggle('hidden', !isMetric);
-        document.getElementById('height-imperial').classList.toggle('hidden', isMetric);
-        document.getElementById('height-imperial').classList.toggle('flex', !isMetric);
-        document.getElementById('weight-label').textContent = isMetric ? 'Weight (kg)' : 'Weight (lbs)';
-        document.getElementById('height-label').textContent = isMetric ? 'Height (cm)' : 'Height (ft / in)';
-        document.getElementById('weight-label').htmlFor = isMetric ? 'weight-kg' : 'weight-lbs';
-        document.getElementById('height-label').htmlFor = isMetric ? 'height-cm' : 'height-ft';
-    }
- 
-    function toggleBodyFatImages() {
-        const gender = document.getElementById('gender').value;
-        document.getElementById('bf-male-section').classList.toggle('hidden', gender !== 'male');
-        document.getElementById('bf-female-section').classList.toggle('hidden', gender !== 'female');
-        clearBodyFat();
-    }
- 
-    function clearBodyFat() {
-        document.querySelectorAll('input[name="bodyFat"]').forEach(radio => radio.checked = false);
-    }
- 
-    function setGoal(goal) {
-        currentGoal = goal;
-        const base = "goal-btn py-3 px-2 rounded-xl border font-bold transition text-xs sm:text-sm shadow-sm ";
-        const inactive = base + "bg-slate-900 border-slate-700 hover:bg-slate-700 text-slate-300";
-        const active = base + "bg-orange-500 border-orange-400 text-slate-950 shadow-md";
-        ['lose', 'maintain', 'gain'].forEach(item => {
-            document.getElementById(`goal-${item}`).className = item === goal ? active : inactive;
+
+        document.getElementById('results').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
         });
     }
- 
-    function showError(messageEn, messageAm) {
-        const el = document.getElementById('form-error');
-        const isAm = document.body.classList.contains('lang-am');
-        el.textContent = isAm ? messageAm : messageEn;
-        el.classList.remove('hidden');
-    }
- 
-    function calculate() {
-        const age = Number(document.getElementById('age').value);
-        const gender = document.getElementById('gender').value;
-        const activity = Number(document.getElementById('activity').value);
-        const diet = document.getElementById('diet').value;
-        const weightInput = Number(document.getElementById(isMetric ? 'weight-kg' : 'weight-lbs').value);
-        const heightCm = isMetric
-            ? Number(document.getElementById('height-cm').value)
-            : ((Number(document.getElementById('height-ft').value) * 12) + Number(document.getElementById('height-in').value)) * 2.54;
-        const weightKg = isMetric ? weightInput : weightInput / 2.2046226218;
-        const errorEl = document.getElementById('form-error');
-        errorEl.classList.add('hidden');
- 
-        if (!Number.isFinite(age) || age < 18 || age > 100) {
-            showError('Please enter an age from 18 to 100. This calculator is designed for adults.', 'እባክዎ ከ18 እስከ 100 ዓመት ያለ እድሜ ያስገቡ። ይህ ካልኩሌተር ለአዋቂዎች ነው።');
-            return;
-        }
-        if (!Number.isFinite(weightKg) || weightKg < 25 || weightKg > 350) {
-            showError(isMetric ? 'Enter a weight between 25 and 350 kg.' : 'Enter a weight between about 55 and 770 lb.', isMetric ? 'ከ25 እስከ 350 ኪ.ግ ያለ ክብደት ያስገቡ።' : 'ከ55 እስከ 770 ፓውንድ ያለ ክብደት ያስገቡ።');
-            return;
-        }
-        if (!Number.isFinite(heightCm) || heightCm < 120 || heightCm > 230) {
-            showError(isMetric ? 'Enter a height between 120 and 230 cm.' : 'Enter a valid height (4–7 ft; inches 0–11).', isMetric ? 'ከ120 እስከ 230 ሴ.ሜ ያለ ቁመት ያስገቡ።' : 'ትክክለኛ ቁመት ያስገቡ (4–7 ጫማ፤ ኢንች 0–11)።');
-            return;
-        }
- 
-        const bodyFatInput = document.querySelector('input[name="bodyFat"]:checked');
-        const bodyFatPct = bodyFatInput ? Number(bodyFatInput.value) : null;
- 
-        // Mifflin-St Jeor for most adults; Katch-McArdle if an optional body-fat estimate is selected.
-        let bmr;
-        if (bodyFatPct !== null) {
-            const leanMassKg = weightKg * (1 - bodyFatPct / 100);
-            bmr = 370 + 21.6 * leanMassKg;
-        } else {
-            bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + (gender === 'male' ? 5 : -161);
-        }
- 
-        const tdee = Math.round(bmr * activity);
-        let targetCalories = tdee;
-        if (currentGoal === 'lose') targetCalories = Math.round(tdee * 0.85);
-        if (currentGoal === 'gain') targetCalories = Math.round(tdee * 1.08);
- 
-        // Set protein by body weight and goal; distribute remaining energy to carbs/fats.
-        let proteinPerKg = currentGoal === 'lose' ? 2.0 : 1.8;
-        if (diet === 'high-protein') proteinPerKg = currentGoal === 'lose' ? 2.2 : 2.0;
-        if (diet === 'keto') proteinPerKg = 1.8;
-        const proteinGrams = Math.round(weightKg * proteinPerKg);
-        const proteinCalories = proteinGrams * 4;
-        const remainingCalories = Math.max(0, targetCalories - proteinCalories);
- 
-        let carbShare, fatShare;
-        if (diet === 'low-carb') {
-            carbShare = 0.25; fatShare = 0.75;
-        } else if (diet === 'keto') {
-            carbShare = 0.08; fatShare = 0.92;
-        } else if (diet === 'high-protein') {
-            carbShare = 0.55; fatShare = 0.45;
-        } else {
-            carbShare = 0.55; fatShare = 0.45;
-        }
- 
-        let carbsGrams = Math.round((remainingCalories * carbShare) / 4);
-        let fatGrams = Math.round((remainingCalories * fatShare) / 9);
- 
-        // Low-carb/keto are approximate macro styles, not a medical prescription.
-        // Keep carbohydrate intake very low for keto; protein calories are accounted for separately.
-        if (diet === 'keto') {
-            carbsGrams = Math.min( Math.round((targetCalories * 0.08) / 4), 50);
-            const caloriesAfterProteinAndCarbs = Math.max(0, targetCalories - proteinCalories - carbsGrams * 4);
-            fatGrams = Math.round(caloriesAfterProteinAndCarbs / 9);
-        }
- 
-        // A simple fluid-intake estimate, not a universal water requirement.
-        const activityExtra = activity >= 1.7 ? 0.75 : activity >= 1.5 ? 0.5 : activity >= 1.3 ? 0.25 : 0;
-        const waterLiters = Math.max(1, weightKg * 0.03 + activityExtra);
- 
-        calcData = { cals: targetCalories, p: proteinGrams, c: carbsGrams, f: fatGrams, water: waterLiters };
- 
-        document.getElementById('tdee-val').textContent = tdee.toLocaleString() + ' kcal';
-        document.getElementById('target-calories').textContent = targetCalories.toLocaleString() + ' kcal';
-        document.getElementById('protein-val').textContent = proteinGrams + 'g';
-        document.getElementById('carbs-val').textContent = carbsGrams + 'g';
-        document.getElementById('fats-val').textContent = fatGrams + 'g';
-        document.getElementById('water-val').textContent = waterLiters.toFixed(1) + ' L';
- 
-        const macroCalories = [proteinGrams * 4, carbsGrams * 4, fatGrams * 9];
-        const totalMacroCalories = macroCalories.reduce((a, b) => a + b, 0) || 1;
-        const pPct = macroCalories[0] / totalMacroCalories;
-        const cPct = macroCalories[1] / totalMacroCalories;
-        const fPct = macroCalories[2] / totalMacroCalories;
- 
-        document.getElementById('pct-p').textContent = `(${Math.round(pPct * 100)}%)`;
-        document.getElementById('pct-c').textContent = `(${Math.round(cPct * 100)}%)`;
-        document.getElementById('pct-f').textContent = `(${Math.round(fPct * 100)}%)`;
-        document.getElementById('bar-p').style.width = (pPct * 100) + '%';
-        document.getElementById('bar-c').style.width = (cPct * 100) + '%';
-        document.getElementById('bar-f').style.width = (fPct * 100) + '%';
- 
-        updateMealSplit();
-        document.getElementById('results').classList.remove('hidden');
-        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
- 
+
     function updateMealSplit() {
         if (!calcData.cals) return;
-        const meals = Number(document.getElementById('meals-per-day').value) || 3;
-        document.getElementById('meal-cal').textContent = Math.round(calcData.cals / meals).toLocaleString();
-        document.getElementById('meal-p').textContent = Math.round(calcData.p / meals) + 'g';
-        document.getElementById('meal-c').textContent = Math.round(calcData.c / meals) + 'g';
-        document.getElementById('meal-f').textContent = Math.round(calcData.f / meals) + 'g';
+
+        const meals =
+            Number(document.getElementById('meals-per-day').value) || 3;
+
+        document.getElementById('meal-cal').textContent =
+            Math.round(calcData.cals / meals).toLocaleString();
+
+        document.getElementById('meal-p').textContent =
+            Math.round(calcData.p / meals) + 'g';
+
+        document.getElementById('meal-c').textContent =
+            Math.round(calcData.c / meals) + 'g';
+
+        document.getElementById('meal-f').textContent =
+            Math.round(calcData.f / meals) + 'g';
     }
- 
+
     async function shareResults() {
         if (!calcData.cals) {
             const isAm = document.body.classList.contains('lang-am');
-            alert(isAm ? 'ከመጀመሪያ ውጤትዎን ያስሉ።' : 'Please calculate your targets first.');
+
+            alert(
+                isAm
+                    ? 'ከመጀመሪያ ውጤትዎን ያስሉ።'
+                    : 'Please calculate your targets first.'
+            );
+
             return;
         }
-        const summary = `MY KALID AKMEL TARGETS\\n\\nCalories: ${calcData.cals} kcal\\nProtein: ${calcData.p} g\\nCarbs: ${calcData.c} g\\nFats: ${calcData.f} g\\nWater guide: ${calcData.water.toFixed(1)} L`;
+
+        const summary =
+            `MY KALID AKMEL TARGETS\n\n` +
+            `Calories: ${calcData.cals} kcal\n` +
+            `Protein: ${calcData.p} g\n` +
+            `Carbs: ${calcData.c} g\n` +
+            `Fats: ${calcData.f} g\n` +
+            `Water guide: ${calcData.water.toFixed(1)} L`;
+
         if (navigator.share) {
             try {
-                await navigator.share({ title: 'My Kalid Akmel Fitness Targets', text: summary, url: window.location.href });
+                await navigator.share({
+                    title: 'My Kalid Akmel Fitness Targets',
+                    text: summary,
+                    url: window.location.href
+                });
+
                 return;
             } catch (error) {
-                if (error && error.name === 'AbortError') return;
+                if (error && error.name === 'AbortError') {
+                    return;
+                }
             }
         }
+
         try {
-            await navigator.clipboard.writeText(summary + '\\n\\nCalculate yours: ' + window.location.href);
-            alert(document.body.classList.contains('lang-am') ? 'ውጤቶችዎ ተቀድተዋል።' : 'Results copied to clipboard.');
+            await navigator.clipboard.writeText(
+                summary + '\n\nCalculate yours: ' + window.location.href
+            );
+
+            alert(
+                document.body.classList.contains('lang-am')
+                    ? 'ውጤቶችዎ ተቀድተዋል።'
+                    : 'Results copied to clipboard.'
+            );
         } catch (error) {
-            window.prompt('Copy your results:', summary + '\\n\\n' + window.location.href);
+            window.prompt(
+                'Copy your results:',
+                summary + '\n\n' + window.location.href
+            );
         }
     }
-</script>
-</body>
-</html>
+                </script>
